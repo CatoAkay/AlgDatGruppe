@@ -1,4 +1,4 @@
-////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
+package Oblig1;////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -76,4 +76,4 @@ public class Oblig1 {
         throw new NotImplementedException();
     }
 
-}  // Oblig1
+}  // Oblig1.Oblig1
