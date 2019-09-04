@@ -1,3 +1,7 @@
+package Oblig1;
+
+import Oblig1.Oblig1;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 ////// Testprogram for Oblig 1 - 2019 ////////////////////////
@@ -983,4 +987,4 @@ public class Oblig1Test {
         return a;                        // permutasjonen returneres
     }
 
-} // class Oblig1Test
+} // class Oblig1.Oblig1Test
