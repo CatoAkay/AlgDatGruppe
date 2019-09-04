@@ -21,7 +21,21 @@ public class Oblig1 {
 
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a) {
-        throw new NotImplementedException();
+        int antallUlike = 0;
+        if (a.length <= 0){
+            return antallUlike;
+        }else {
+            antallUlike = 1;
+        }
+        for (int  i = 1; i < a.length; i++){
+            if (a[i-1] > a[i]){
+                throw new IllegalStateException("Tabellen er ikke sortert stigende!");
+            }
+            if (a[i-1] != a[i]){
+                antallUlike++;
+            }
+        }
+        return antallUlike;
     }
 
 
