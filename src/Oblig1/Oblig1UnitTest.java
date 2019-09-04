@@ -1,5 +1,7 @@
 package Oblig1;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -10,7 +12,8 @@ class Oblig1UnitTest {
 
     @org.junit.jupiter.api.Test
     void maks() {
-        assertEquals(true, false, "Implementer maks og denne testen");
+        int[] a = {7,3,2,8};
+        assertEquals(8, Oblig1.maks(a));
     }
 
     @org.junit.jupiter.api.Test

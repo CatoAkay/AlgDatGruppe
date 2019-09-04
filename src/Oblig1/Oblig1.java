@@ -12,7 +12,14 @@ public class Oblig1 {
 
     ///// Oppgave 1 //////////////////////////////////////
     public static int maks(int[] a) {
-        throw new NotImplementedException();
+        for(int i = 1; i < a.length; i++) {
+            if(a[i-1] > a[i]) {
+                int temp = a[i];
+                a[i] = a[i-1];
+                a[i-1] = temp;
+            }
+        }
+        return a[a.length - 1];
     }
 
     public static int ombyttinger(int[] a) {
