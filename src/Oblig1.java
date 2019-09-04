@@ -1,5 +1,3 @@
-package no.oslomet.cs.algdat.Oblig1;
-
 ////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
