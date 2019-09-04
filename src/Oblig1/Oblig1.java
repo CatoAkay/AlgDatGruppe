@@ -11,7 +11,15 @@ public class Oblig1 {
     }
 
     ///// Oppgave 1 //////////////////////////////////////
+
+    /**
+     * Det blir flest ombyttinger hvis tabellen er i synkende rekkefølge, da vil det alltid være ombyttinger for hver iterasjon
+     * Det er færrest/ingen hvis tabellen er i stigende rekkefølge
+     *
+     */
     public static int maks(int[] a) {
+        if(a.length <= 0)
+            throw new NoSuchElementException("Tabellen er tom");
         for(int i = 1; i < a.length; i++) {
             if(a[i-1] > a[i]) {
                 int temp = a[i];
@@ -23,7 +31,18 @@ public class Oblig1 {
     }
 
     public static int ombyttinger(int[] a) {
-        throw new NotImplementedException();
+        int ombyttinger = 0;
+        if(a.length <= 0)
+            throw new NoSuchElementException("Tabellen er tom");
+        for(int i = 1; i < a.length; i++) {
+            if(a[i-1] > a[i]) {
+                int temp = a[i];
+                a[i] = a[i-1];
+                a[i-1] = temp;
+                ombyttinger++;
+            }
+        }
+        return ombyttinger;
     }
 
     ///// Oppgave 2 //////////////////////////////////////

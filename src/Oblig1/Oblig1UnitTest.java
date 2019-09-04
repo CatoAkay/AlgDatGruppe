@@ -12,8 +12,9 @@ class Oblig1UnitTest {
 
     @org.junit.jupiter.api.Test
     void maks() {
-        int[] a = {7,3,2,8};
-        assertEquals(8, Oblig1.maks(a));
+        int[] a = {10,3,2,8};
+        assertEquals(10, Oblig1.maks(a));
+        System.out.println(Arrays.toString(a));
     }
 
     @org.junit.jupiter.api.Test
