@@ -49,7 +49,9 @@ class Oblig1UnitTest {
 
     @org.junit.jupiter.api.Test
     void delsortering() {
-        assertEquals(true, false, "Implementer delsortering og denne testen");
+        int[] a = {6,10,9,4,1,3,8,5,2,7};
+
+        Oblig1.delsortering(a);
     }
 
     @org.junit.jupiter.api.Test
