@@ -4,6 +4,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import Hjelpemetoder.StorteringsMetoder;
 
 
 public class Oblig1 {
@@ -72,7 +73,23 @@ public class Oblig1 {
 
     ///// Oppgave 4 //////////////////////////////////////
     public static void delsortering(int[] a) {
-        throw new NotImplementedException();
+         int antallOddetall = 0;
+         int temp;
+         for (int i = 0; i < a.length; i++){
+             if ((Math.abs(a[i]) % 2) != 0){
+                 temp = a[antallOddetall];
+                 a[antallOddetall++] = a[i];
+                 a[i] = temp;
+             }
+         }
+         Hjelpemetoder.StorteringsMetoder.quickSort(a,0,antallOddetall-1);
+         Hjelpemetoder.StorteringsMetoder.quickSort(a,antallOddetall,a.length-1);
+    }
+
+    public static void main(String[] args) {
+        int [] a = {6,10,9,4,1,3,8,5,2,7};
+        delsortering(a);
+        System.out.println(Arrays.toString(a));
     }
 
     ///// Oppgave 5 //////////////////////////////////////
