@@ -57,8 +57,7 @@ public class Oblig1 {
             if(a[i - 1] > a[i])
                 throw new IllegalStateException("Tabellen er ikke sortert");
 
-            if(a[i - 1] != a[i])
-            {
+            if(a[i - 1] != a[i]) {
                 antall++;
             }
         }
