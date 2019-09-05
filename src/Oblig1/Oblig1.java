@@ -47,7 +47,22 @@ public class Oblig1 {
 
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a) {
-        throw new NotImplementedException();
+        if(a.length == 0)
+            return 0;
+
+
+        int antall = 1;
+        for(int i = 1; i < a.length; i++)
+        {
+            if(a[i - 1] > a[i])
+                throw new IllegalStateException("Tabellen er ikke sortert");
+
+            if(a[i - 1] != a[i])
+            {
+                antall++;
+            }
+        }
+        return antall;
     }
 
 
