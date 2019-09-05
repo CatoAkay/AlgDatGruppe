@@ -54,16 +54,52 @@ public class Oblig1 {
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a)
     {
-        for(int i = 1; i<a.length; i++)
+        int antallUlikeVerdier = 0;
+
+        if(a.length == 0) return antallUlikeVerdier;
+        else
         {
-            if(a[i-1] > a[i]) throw new IllegalArgumentException("Tabellen er ikke sortert stigende");
+            antallUlikeVerdier++;
         }
+
+        for(int i = 1; i<a.length; i++)
+            {
+                if(a[i-1] > a[i]) throw new IllegalStateException("Tabellen er ikke sortert stigende");
+
+                if(a[i-1] != a[i]) {antallUlikeVerdier++;}
+            }
+
+        return antallUlikeVerdier;
     }
 
 
+
     ///// Oppgave 3 //////////////////////////////////////
-    public static int antallUlikeUsortert(int[] a) {
-        throw new NotImplementedException();
+    public static int antallUlikeUsortert(int[] a)
+    {
+        int antallUlikeVerdier = 0;
+        if(a.length == 0) return antallUlikeVerdier;
+        else
+        {
+            antallUlikeVerdier++;
+        }
+
+        int like = 0;
+        int start = 0;
+
+        for (int i = start; i<a.length; i++)
+        {
+            if(a[start] == a[i+1])
+            {
+
+            }
+
+        }
+
+    }
+
+    public static void main(String[] args) {
+        int a[] = {5,3,7,4,3,5,7};
     }
 
     ///// Oppgave 4 //////////////////////////////////////
