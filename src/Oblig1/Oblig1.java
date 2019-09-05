@@ -11,17 +11,53 @@ public class Oblig1 {
     }
 
     ///// Oppgave 1 //////////////////////////////////////
-    public static int maks(int[] a) {
-        throw new NotImplementedException();
+    public static int maks(int[] a)
+    {
+        //Diverse feilsjekk
+        if( a == null) throw new NullPointerException("Parametertabellen a er null!");
+        if(a.length == 0) throw new NoSuchElementException("Ingen verdier i a!");
+
+        for(int i = 1; i<a.length; i++)
+        {
+            if(a[i-1] > a[i])
+            {
+                int temp = a[i];
+                a[i] = a[i-1];
+                a[i-1] =  temp;
+            }
+
+        }
+        return a[a.length-1];
     }
 
-    public static int ombyttinger(int[] a) {
-        throw new NotImplementedException();
+    public static int ombyttinger(int[] a)
+    {
+        //Diverse feilsjekk
+        if( a == null) throw new NullPointerException("Parametertabellen a er null!");
+        if(a.length == 0) throw new NoSuchElementException("Ingen verdier i a!");
+
+        int ombyttinger = 0;
+        for(int i = 1; i<a.length; i++)
+        {
+            if(a[i-1] > a[i])
+            {
+                int temp = a[i];
+                a[i] = a[i-1];
+                a[i-1] =  temp;
+                ombyttinger++;
+            }
+
+        }
+        return ombyttinger;
     }
 
     ///// Oppgave 2 //////////////////////////////////////
-    public static int antallUlikeSortert(int[] a) {
-        throw new NotImplementedException();
+    public static int antallUlikeSortert(int[] a)
+    {
+        for(int i = 1; i<a.length; i++)
+        {
+            if(a[i-1] > a[i]) throw new IllegalArgumentException("Tabellen er ikke sortert stigende");
+        }
     }
 
 
