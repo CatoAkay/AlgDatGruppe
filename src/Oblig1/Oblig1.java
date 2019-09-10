@@ -1,10 +1,7 @@
 package Oblig1;////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.Arrays;
 import java.util.NoSuchElementException;
-import Hjelpemetoder.StorteringsMetoder;
 
 
 public class Oblig1 {
@@ -86,12 +83,6 @@ public class Oblig1 {
          Hjelpemetoder.StorteringsMetoder.quickSort(a,antallOddetall,a.length-1);
     }
 
-    public static void main(String[] args) {
-        int [] a = {6,10,9,4,1,3,8,5,2,7};
-        delsortering(a);
-        System.out.println(Arrays.toString(a));
-    }
-
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
         throw new NotImplementedException();
@@ -105,7 +96,29 @@ public class Oblig1 {
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
     public static String flett(String s, String t) {
-        throw new NotImplementedException();
+        StringBuilder flettet = new StringBuilder();
+        int lengde;
+
+        //En bedre måte å gjøre det på
+        //int lengde = (s.length() <= t.length()) ? t.length() : s.length();
+
+        if (s.length() < t.length()){
+            lengde = t.length();
+        }else if (t.length() < s.length()){
+            lengde = s.length();
+        }else {
+            lengde = s.length();
+        }
+
+        for (int i = 0; i < lengde; i++){
+            if (s.length() > i){
+                flettet.append(s.charAt(i));
+            }
+            if (t.length() > i){
+                flettet.append(t.charAt(i));
+            }
+        }
+        return flettet.toString();
     }
 
     /// 7b)
