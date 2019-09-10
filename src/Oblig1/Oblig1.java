@@ -77,29 +77,7 @@ public class Oblig1 {
     ///// Oppgave 3 //////////////////////////////////////
     public static int antallUlikeUsortert(int[] a)
     {
-        int antallUlikeVerdier = 0;
-        if(a.length == 0) return antallUlikeVerdier;
-        else
-        {
-            antallUlikeVerdier++;
-        }
-
-        int like = 0;
-        int start = 0;
-
-        for (int i = start; i<a.length; i++)
-        {
-            if(a[start] == a[i+1])
-            {
-
-            }
-
-        }
-
-    }
-
-    public static void main(String[] args) {
-        int a[] = {5,3,7,4,3,5,7};
+        throw new NotImplementedException();
     }
 
     ///// Oppgave 4 //////////////////////////////////////
@@ -128,9 +106,45 @@ public class Oblig1 {
         throw new NotImplementedException();
     }
 
+    public static void main(String[] args)
+    {
+        int a[] = {6,10,16,11,7,12,3,9,8,5};
+        int [] indeks = indekssortering(a);
+        System.out.println(Arrays.toString(indeks));
+
+
+    }
+
+
     ///// Oppgave 8 //////////////////////////////////////
-    public static int[] indekssortering(int[] a) {
-        throw new NotImplementedException();
+    public static int[] indekssortering(int[] a)
+    {
+        int [] indekssortert = new int[a.length];
+        int i = 0;
+
+        while(i < a.length)
+        {
+            indekssortert[i] = minindeks(a);
+            i++;
+        }
+
+        return indekssortert;
+    }
+
+    public static int minindeks(int[] a)
+    {
+        int minIndeks = 0;
+        int minVerdi = a[0];
+
+        for (int i = 1; i <a.length; i++)
+        {
+            if(a[i] < minVerdi)
+            {
+                minIndeks = i;
+                minVerdi = a[minIndeks];
+            }
+        }
+        return minIndeks;
     }
 
 
