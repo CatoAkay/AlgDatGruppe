@@ -150,7 +150,21 @@ public class Oblig1 {
 
     /// 7b)
     public static String flett(String... s) {
-        throw new NotImplementedException();
+        int lengste = 0;
+        StringBuilder flettet = new StringBuilder();
+        for (String strenger : s) {
+            if (strenger.length() > lengste){
+                lengste = strenger.length();
+            }
+        }
+        for (int i = 0; i < lengste; i++){
+            for (String strenger2 : s) {
+                if (strenger2.length() > i){
+                    flettet.append(strenger2,i,i+1);
+                }
+            }
+        }
+        return flettet.toString();
     }
 
     ///// Oppgave 8 //////////////////////////////////////
