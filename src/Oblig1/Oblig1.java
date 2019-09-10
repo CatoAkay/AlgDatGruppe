@@ -65,7 +65,25 @@ public class Oblig1 {
 
     ///// Oppgave 3 //////////////////////////////////////
     public static int antallUlikeUsortert(int[] a) {
-        throw new NotImplementedException();
+        if(a.length == 0)
+            return 0;
+
+        int antLike = 0;
+
+        for(int i = 0; i < a.length; i++)
+        {
+            for(int j = i + 1; j < a.length; j++)
+            {
+                if(a[j] == a[i])
+                    antLike++;
+            }
+        }
+
+        if(a.length - antLike < 0)
+            return -1 * (a.length - antLike);
+
+        return a.length - antLike;
+
     }
 
     ///// Oppgave 4 //////////////////////////////////////
@@ -85,12 +103,21 @@ public class Oblig1 {
 
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
-        throw new NotImplementedException();
+
+        if(a.length <= 0)
+            return;
+
+        char tempLast = a[a.length - 1];
+
+        for(int i = a.length - 1; i > 0; i--) {
+            a[i] = a[i - 1];
+        }
+        a[0] = tempLast;
     }
 
     ///// Oppgave 6 //////////////////////////////////////
     public static void rotasjon(char[] a, int k) {
-        throw new NotImplementedException();
+
     }
 
     ///// Oppgave 7 //////////////////////////////////////

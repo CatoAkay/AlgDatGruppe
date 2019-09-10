@@ -19,7 +19,20 @@ class Oblig1UnitTest {
 
     @org.junit.jupiter.api.Test
     void ombyttinger() {
-        assertEquals(true, false, "Implementer ombyttinger og denne testen");
+        int[] a = {1,2,3};
+        int[] b = {1,3,2};
+        int[] c = {2,1,3};
+        int[] d = {2,3,1};
+        int[] e = {3,1,2};
+        int[] f = {3,2,1};
+
+        System.out.println(Oblig1.ombyttinger(a));
+        System.out.println(Oblig1.ombyttinger(b));
+        System.out.println(Oblig1.ombyttinger(c));
+        System.out.println(Oblig1.ombyttinger(d));
+        System.out.println(Oblig1.ombyttinger(e));
+        System.out.println(Oblig1.ombyttinger(f));
+
     }
 
     @org.junit.jupiter.api.Test
@@ -35,12 +48,15 @@ class Oblig1UnitTest {
 
     @org.junit.jupiter.api.Test
     void delsortering() {
-        assertEquals(true, false, "Implementer delsortering og denne testen");
+        int[] a = {6,10,9,4,1,3,8,5,2,7};
+
+        Oblig1.delsortering(a);
     }
 
     @org.junit.jupiter.api.Test
     void rotasjon() {
-        assertEquals(true, false, "Implementer rotasjon og denne testen");
+        char[] a = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
+        Oblig1.rotasjon(a);
     }
 
     @org.junit.jupiter.api.Test
