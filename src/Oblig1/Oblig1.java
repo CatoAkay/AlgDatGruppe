@@ -175,7 +175,41 @@ public class Oblig1 {
 
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
-        throw new NotImplementedException();
+        if (a.length < 3){
+            throw new NoSuchElementException("Tabellen må ha 3 eller flere elementer");
+        }
+        int minst = Integer.MAX_VALUE;
+        int nestMinst = Integer.MAX_VALUE;
+        int tredjeMinst = Integer.MAX_VALUE;
+
+        int minstIndex = 0;
+        int nestMinstIndex = 0;
+        int tredjeMinstIndex = 0;
+
+        for (int i = 0; i < a.length; i++){
+            if (a[i] < minst){
+                tredjeMinstIndex = nestMinstIndex;
+                tredjeMinst = nestMinst;
+
+                nestMinstIndex = minstIndex;
+                nestMinst = minst;
+
+                minstIndex = i;
+                minst = a[i];
+            }
+            else if (a[i] < nestMinst){
+                tredjeMinstIndex = nestMinstIndex;
+                tredjeMinst = nestMinst;
+
+                nestMinstIndex = i;
+                nestMinst = a[i];
+            }
+            else if (a[i] < tredjeMinst){
+                tredjeMinstIndex = i;
+                tredjeMinst = a[i];
+            }
+        }
+        return new int[]{minstIndex, nestMinstIndex, tredjeMinstIndex};
     }
 
     ///// Oppgave 10 //////////////////////////////////////
