@@ -120,31 +120,11 @@ public class Oblig1 {
     public static int[] indekssortering(int[] a)
     {
         int [] indekssortert = new int[a.length];
-        int i = 0;
+        int [] b = a.clone();
 
-        while(i < a.length)
-        {
-            indekssortert[i] = minindeks(a);
-            i++;
-        }
 
-        return indekssortert;
-    }
 
-    public static int minindeks(int[] a)
-    {
-        int minIndeks = 0;
-        int minVerdi = a[0];
 
-        for (int i = 1; i <a.length; i++)
-        {
-            if(a[i] < minVerdi)
-            {
-                minIndeks = i;
-                minVerdi = a[minIndeks];
-            }
-        }
-        return minIndeks;
     }
 
 
