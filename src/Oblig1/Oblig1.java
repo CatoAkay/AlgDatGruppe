@@ -4,6 +4,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import Hjelpemetoder.Sortering;
 
 
 public class Oblig1 {
@@ -109,9 +110,8 @@ public class Oblig1 {
     public static void main(String[] args)
     {
         int a[] = {6,10,16,11,7,12,3,9,8,5};
-        int [] indeks = indekssortering(a);
-        System.out.println(Arrays.toString(indeks));
-
+        int [] sortert = indekssortering(a);
+        System.out.println(Arrays.toString(sortert));
 
     }
 
@@ -119,11 +119,29 @@ public class Oblig1 {
     ///// Oppgave 8 //////////////////////////////////////
     public static int[] indekssortering(int[] a)
     {
+
         int [] indekssortert = new int[a.length];
+        if(a.length == 0) return indekssortert;
+
         int [] b = a.clone();
 
+        Sortering.quickSort(b,0,b.length-1);
 
+        int indeksretur = 0;
 
+        for(int i = 0; i<b.length; i++)
+        {
+            for(int j = 0; j<a.length; j++)
+            {
+                if (b[i] == a[j])
+                {
+                    indekssortert[indeksretur] = j;
+                    indeksretur++;
+                }
+            }
+        }
+
+        return indekssortert;
 
     }
 
