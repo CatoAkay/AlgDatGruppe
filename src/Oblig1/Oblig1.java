@@ -111,12 +111,7 @@ public class Oblig1 {
     public static void rotasjon(char[] a, int k) {
         if(a.length <= 0)
             return;
-
-        /*
-            vi har bare en metode for å rotere til høyre, men å rotere -1, dvs
-            å rotere til venstre en gang, som er det samme som å rotere til høyre til enden plus 1.
-            hvis array er lengde 3 og vi skal rotere med -1 kan vi rotere til høyre 4 ganger
-         */
+        
         if(k < 0)
         {
             k = -k % a.length;
@@ -130,7 +125,7 @@ public class Oblig1 {
         reverser(a, step, n-1);
     }
 
-    // algoritme for å rottere til høyre
+    // ***skal inn i hjelpemetoderklassen***
     public static void reverser(char[] c, int left, int right){
         char[] copy = c.clone();
         for (int i = left; i <= right; i++){
