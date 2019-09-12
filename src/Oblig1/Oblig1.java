@@ -107,44 +107,50 @@ public class Oblig1 {
         throw new NotImplementedException();
     }
 
-    public static void main(String[] args)
-    {
-        int a[] = {6,10,16,11,7,12,3,9,8,5};
-        int [] sortert = indekssortering(a);
-        System.out.println(Arrays.toString(sortert));
-
-    }
-
-
     ///// Oppgave 8 //////////////////////////////////////
-    public static int[] indekssortering(int[] a)
-    {
+    public static int[] indekssortering(int[] a) {
 
-        int [] indekssortert = new int[a.length];
-        if(a.length == 0) return indekssortert;
+        int[] indekssortert = new int[a.length];
 
-        int [] b = a.clone();
+        if (a.length == 0) return indekssortert;
 
-        Sortering.quickSort(b,0,b.length-1);
+        int[] b = a.clone();
+
+        Sortering.quickSort(b, 0, b.length - 1);
 
         int indeksretur = 0;
 
-        for(int i = 0; i<b.length; i++)
-        {
-            for(int j = 0; j<a.length; j++)
+        for (int i = 0; i < b.length; i++) {
+            if (i < b.length - 1)
             {
-                if (b[i] == a[j])
+                if (b[i] != b[i + 1])
                 {
-                    indekssortert[indeksretur] = j;
-                    indeksretur++;
+                    for (int j = 0; j < a.length; j++)
+                    {
+                        if (b[i] == a[j])
+                        {
+                            indekssortert[indeksretur] = j;
+                            indeksretur++;
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                for (int j = 0; j < a.length; j++)
+                {
+                    if (b[i] == a[j])
+                    {
+                        indekssortert[indeksretur] = j;
+                        indeksretur++;
+                    }
                 }
             }
+
         }
-
         return indekssortert;
-
     }
-
 
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
