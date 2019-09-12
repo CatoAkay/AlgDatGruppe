@@ -2,7 +2,6 @@ package Oblig1;////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.NoSuchElementException;
-import Hjelpemetoder.Sortering;
 
 
 public class Oblig1 {
@@ -178,7 +177,7 @@ public class Oblig1 {
 
         int[] b = a.clone();
 
-        Sortering.quickSort(b, 0, b.length - 1);
+        Hjelpemetoder.StorteringsMetoder.quickSort(b, 0, b.length - 1);
 
         int indeksretur = 0;
 
