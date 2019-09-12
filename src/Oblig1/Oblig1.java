@@ -2,6 +2,7 @@ package Oblig1;////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.NoSuchElementException;
+import Hjelpemetoder.Sortering;
 
 
 public class Oblig1 {
@@ -61,6 +62,7 @@ public class Oblig1 {
         }
         return antallUlike;
     }
+
 
 
     ///// Oppgave 3 //////////////////////////////////////
@@ -169,9 +171,48 @@ public class Oblig1 {
 
     ///// Oppgave 8 //////////////////////////////////////
     public static int[] indekssortering(int[] a) {
-        throw new NotImplementedException();
-    }
 
+        int[] indekssortert = new int[a.length];
+
+        if (a.length == 0) return indekssortert;
+
+        int[] b = a.clone();
+
+        Sortering.quickSort(b, 0, b.length - 1);
+
+        int indeksretur = 0;
+
+        for (int i = 0; i < b.length; i++) {
+            if (i < b.length - 1)
+            {
+                if (b[i] != b[i + 1])
+                {
+                    for (int j = 0; j < a.length; j++)
+                    {
+                        if (b[i] == a[j])
+                        {
+                            indekssortert[indeksretur] = j;
+                            indeksretur++;
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                for (int j = 0; j < a.length; j++)
+                {
+                    if (b[i] == a[j])
+                    {
+                        indekssortert[indeksretur] = j;
+                        indeksretur++;
+                    }
+                }
+            }
+
+        }
+        return indekssortert;
+    }
 
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
