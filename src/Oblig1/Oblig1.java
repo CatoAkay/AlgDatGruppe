@@ -118,8 +118,30 @@ public class Oblig1 {
 
     ///// Oppgave 6 //////////////////////////////////////
     public static void rotasjon(char[] a, int k) {
+        if(a.length <= 0)
+            return;
+        
+        if(k < 0)
+        {
+            k = -k % a.length;
+            k = a.length - k;
+        }
+        int n = a.length;
+        int step = k % n;
 
+        reverser(a, 0, n-1);
+        reverser(a, 0, step-1);
+        reverser(a, step, n-1);
     }
+
+    // ***skal inn i hjelpemetoderklassen***
+    public static void reverser(char[] c, int left, int right){
+        char[] copy = c.clone();
+        for (int i = left; i <= right; i++){
+            c[i] = copy[right - i + left];
+        }
+    }
+
 
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
