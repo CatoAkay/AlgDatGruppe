@@ -109,8 +109,35 @@ public class Oblig1 {
 
     ///// Oppgave 6 //////////////////////////////////////
     public static void rotasjon(char[] a, int k) {
+        if(a.length <= 0)
+            return;
 
+        /*
+            vi har bare metode for å rotere til høyre, men å rotere -1, dvs
+            å rotere til venstre en gang er som å rotere til høyre til enden plus 1.
+            -1 = 9 rotasjoner slik at den gjør en ekstra runde og faller på riktig plass
+         */
+        if(k < 0)
+        {
+            k = -k % a.length;
+            k = a.length - k;
+        }
+
+        int n = a.length;
+        int steg = k % n;
+        reverser(a, 0, n-1);
+        reverser(a, 0, steg-1);
+        reverser(a, steg, n-1);
     }
+
+    // algoritme for å rottere til høyre
+    public static void reverser(char[] c, int v, int h){
+        char[] temp = c.clone();
+        for (int i = v; i <= h; i++){
+            c[i] = temp[h - i + v];
+        }
+    }
+
 
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
