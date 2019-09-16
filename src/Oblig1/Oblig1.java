@@ -86,7 +86,6 @@ public class Oblig1 {
         }
 
         int duplikat = 1;
-        int lengde = a.length;
 
         for(int i = 0; i < a.length; i++)
         {
@@ -98,8 +97,8 @@ public class Oblig1 {
                 }
             }
         }
+        return a.length - duplikat;
 
-        return lengde-duplikat;
     }
     public static void main (String[]args)
     {
