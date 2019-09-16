@@ -79,25 +79,32 @@ public class Oblig1 {
 
     ///// Oppgave 3 //////////////////////////////////////
     public static int antallUlikeUsortert(int[] a) {
-        int ulike = 0;
+
         if(a.length == 0)
         {
             return 0;
         }
 
-        for(int i = 1; i < a.length; i++)
+        int duplikat = 1;
+        int lengde = a.length;
+
+        for(int i = 0; i < a.length; i++)
         {
-            if(a[i] != a[i-1])
+            for( int l = i + 1; l < a.length; l++)
             {
-                ulike++;
+                if(a[l] == a[i])
+                {
+                    duplikat++;
+                }
             }
         }
-        return ulike;
+
+        return lengde-duplikat;
     }
     public static void main (String[]args)
     {
         //Oppgaver fra 1.1.2
-        int[] tabell = new int[]{8,7,6,5,6,7,8};
+        int[] tabell = new int[]{1,2,4,5,3,3};
 
         System.out.println(antallUlikeUsortert(tabell));
 
