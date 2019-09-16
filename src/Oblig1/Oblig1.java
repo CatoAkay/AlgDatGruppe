@@ -74,12 +74,33 @@ public class Oblig1 {
         }
         return ulike;
     }
-   
+
 
 
     ///// Oppgave 3 //////////////////////////////////////
     public static int antallUlikeUsortert(int[] a) {
-        throw new NotImplementedException();
+        int ulike = 0;
+        if(a.length == 0)
+        {
+            return 0;
+        }
+
+        for(int i = 1; i < a.length; i++)
+        {
+            if(a[i] != a[i-1])
+            {
+                ulike++;
+            }
+        }
+        return ulike;
+    }
+    public static void main (String[]args)
+    {
+        //Oppgaver fra 1.1.2
+        int[] tabell = new int[]{8,7,6,5,6,7,8};
+
+        System.out.println(antallUlikeUsortert(tabell));
+
     }
 
     ///// Oppgave 4 //////////////////////////////////////
