@@ -12,11 +12,57 @@ public class Oblig1 {
 
     ///// Oppgave 1 //////////////////////////////////////
     public static int maks(int[] a) {
-        throw new NotImplementedException();
+
+        if(a == null) throw new NullPointerException("Tabellen er Null");
+        if(a.length < 1)
+        {
+            throw new java.util.NoSuchElementException("Tabellen er tom!");
+        }
+
+        for (int i= 1; i < a.length; i++)
+        {
+           while(a[i-1] > a[i])
+            {
+                int temp = a[i];
+                a[i] = a[i-1];
+                a[i-1] = temp;
+            }
+        }
+        return a[a.length-1];
+
     }
 
-    public static int ombyttinger(int[] a) {
-        throw new NotImplementedException();
+    public static void main(String[]args)
+    {
+
+        int[] tabell = new int[]{2,10,9,2,5,6};
+        System.out.println(maks(tabell));
+        System.out.println(Arrays.toString(tabell));
+
+
+    }
+
+    public static int ombyttinger(int[] a)
+    {
+        if(a == null) throw new NullPointerException("Tabellen er Null");
+        if(a.length < 1)
+        {
+            throw new java.util.NoSuchElementException("Tabellen er tom!");
+        }
+
+        int ombyttninger = 0;
+        for (int i= 1; i < a.length; i++)
+        {
+            if(a[i-1] > a[i])
+            {
+                int temp = a[i];
+                a[i] = a[i-1];
+                a[i-1] = temp;
+                ombyttninger++;
+            }
+        }
+        return ombyttninger;
+
     }
 
     ///// Oppgave 2 //////////////////////////////////////
