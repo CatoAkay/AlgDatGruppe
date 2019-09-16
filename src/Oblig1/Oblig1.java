@@ -85,7 +85,7 @@ public class Oblig1 {
             return 0;
         }
 
-        int duplikat = 1;
+        int duplikat = 0;
 
         for(int i = 0; i < a.length; i++)
         {
@@ -97,13 +97,19 @@ public class Oblig1 {
                 }
             }
         }
+
+        if(a.length - duplikat < 0)
+        {
+            return (a.length - duplikat) * -1;
+        }
+
         return a.length - duplikat;
 
     }
     public static void main (String[]args)
     {
         //Oppgaver fra 1.1.2
-        int[] tabell = new int[]{1,2,4,5,3,3};
+        int[] tabell = new int[]{1,2,4,5,3,3,5,4};
 
         System.out.println(antallUlikeUsortert(tabell));
 
