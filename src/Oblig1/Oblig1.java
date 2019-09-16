@@ -18,7 +18,6 @@ public class Oblig1 {
         {
             throw new java.util.NoSuchElementException("Tabellen er tom!");
         }
-
         for (int i= 1; i < a.length; i++)
         {
            while(a[i-1] > a[i])
@@ -29,17 +28,6 @@ public class Oblig1 {
             }
         }
         return a[a.length-1];
-
-    }
-
-    public static void main(String[]args)
-    {
-
-        int[] tabell = new int[]{2,10,9,2,5,6};
-        System.out.println(maks(tabell));
-        System.out.println(Arrays.toString(tabell));
-
-
     }
 
     public static int ombyttinger(int[] a)
@@ -62,13 +50,31 @@ public class Oblig1 {
             }
         }
         return ombyttninger;
-
     }
+
 
     ///// Oppgave 2 //////////////////////////////////////
-    public static int antallUlikeSortert(int[] a) {
-        throw new NotImplementedException();
+    public static int antallUlikeSortert(int[] a)
+    {
+        int ulike = 1;
+        if(a.length == 0)
+        {
+            return 0;
+        }
+        for(int i = 1; i < a.length; i++)
+        {
+            if(a[i-1]>a[i])
+            {
+                throw new IllegalStateException("Tabellen er ikke sortert!");
+            }
+            if(a[i-1] != a[i])
+            {
+                ulike++;
+            }
+        }
+        return ulike;
     }
+   
 
 
     ///// Oppgave 3 //////////////////////////////////////
