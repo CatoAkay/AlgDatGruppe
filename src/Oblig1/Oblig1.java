@@ -156,14 +156,66 @@ public class Oblig1 {
     public static int[] tredjeMin(int[] a) {
         throw new NotImplementedException();
     }
-
+    
     ///// Oppgave 10 //////////////////////////////////////
-    public static int bokstavNr(char bokstav) {
-        throw new NotImplementedException();
-    }
-
     public static boolean inneholdt(String a, String b) {
-        throw new NotImplementedException();
+        if (a.length() > b.length()) {
+            return false;
+        }
+
+        char[] aTab = a.toCharArray();
+        char[] bTab = b.toCharArray();
+        Arrays.sort(aTab);
+
+        if(aTab.length == 0 && bTab.length == 0) {return true;}
+
+        System.out.println(aTab);
+        int teller = 1;
+        int inneholder = 0;
+        boolean ok = false;
+        boolean ok2 = false;
+
+        for (int i = 0; i < a.length(); i++) // Loop gjennom A for å finne ut om vi finner alle bokstavene
+        {
+            if (i != aTab.length - 1)
+            {
+                if (aTab[i] != aTab[i + 1]) {
+                    for (int j = 0; j < bTab.length; j++)
+                    {
+                        if (aTab[i] == bTab[j])
+                        {
+                            inneholder++;
+                            if (inneholder == teller)
+                            {
+                                inneholder = 0;
+                                teller = 1;
+                                ok = true;
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    teller++;
+                }
+            } else {
+                for (int j = 0; j < bTab.length; j++)
+                {
+                    if (aTab[i] == bTab[j])
+                    {
+                        inneholder++;
+                        if (inneholder == teller)
+                        {
+                            ok2 = true;
+                        }
+                    }
+                }
+            }
+        }
+        if(ok && ok2)
+        {
+            return true;
+        }
+        else return false;
     }
 
 }  // Oblig1.Oblig1
