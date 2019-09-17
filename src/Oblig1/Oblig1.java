@@ -1,5 +1,5 @@
 package Oblig1;////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
-
+import Div.quicksort;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
@@ -106,20 +106,26 @@ public class Oblig1 {
         return a.length - duplikat;
 
     }
-    public static void main (String[]args)
-    {
-        //Oppgaver fra 1.1.2
-        int[] tabell = new int[]{1,2,4,5,3,3,5,4};
-
-        System.out.println(antallUlikeUsortert(tabell));
-
-    }
 
     ///// Oppgave 4 //////////////////////////////////////
-    public static void delsortering(int[] a) {
-        throw new NotImplementedException();
-    }
+    public static void delsortering(int[] a)
+    {
+        int temp = 0;
+        int odd = 0;
 
+        for (int i = 0; i < a.length; i++)
+        {
+            if ((Math.abs(a[i]) % 2) != 0)
+            {
+                temp = a[odd];
+                a[odd++] = a[i];
+                a[i] = temp;
+            }
+        }
+        quicksort.quickSort(a,0,odd - 1);
+        quicksort.quickSort(a,odd,a.length-1);
+    }
+    
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
         throw new NotImplementedException();
