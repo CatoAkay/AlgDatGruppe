@@ -125,16 +125,27 @@ public class Oblig1 {
         quicksort.quickSort(a,0,odd - 1);
         quicksort.quickSort(a,odd,a.length-1);
     }
-    
+
     ///// Oppgave 5 //////////////////////////////////////
-    public static void rotasjon(char[] a) {
+    public static void rotasjon(char[] a)
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            for (int j = a.length - 1; j > 0; j--) {
+                char temp = a[j];
+                a[j] = a[j - 1];
+                a[j-1] = temp;
+        }
+        }
+    }
+    
+    ///// Oppgave 6 //////////////////////////////////////
+    public static void rotasjon(char[] a, int k)
+    {
         throw new NotImplementedException();
     }
 
-    ///// Oppgave 6 //////////////////////////////////////
-    public static void rotasjon(char[] a, int k) {
-        throw new NotImplementedException();
-    }
+
 
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
