@@ -1,6 +1,8 @@
 package Oblig1;////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 
