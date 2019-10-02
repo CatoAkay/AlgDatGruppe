@@ -4,7 +4,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-import Hjelpemetoder.Sortering;
 
 
 public class Oblig1 {
@@ -12,99 +11,185 @@ public class Oblig1 {
     }
 
     ///// Oppgave 1 //////////////////////////////////////
-    public static int maks(int[] a)
-    {
-        //Diverse feilsjekk
-        if( a == null) throw new NullPointerException("Parametertabellen a er null!");
-        if(a.length == 0) throw new NoSuchElementException("Ingen verdier i a!");
 
-        for(int i = 1; i<a.length; i++)
-        {
-            if(a[i-1] > a[i])
-            {
+    /**
+     * Det blir flest ombyttinger hvis tabellen er i synkende rekkefølge, da vil det alltid være ombyttinger for hver iterasjon
+     * Det er færrest/ingen hvis tabellen er i stigende rekkefølge
+     *
+     */
+    public static int maks(int[] a) {
+        if(a.length <= 0)
+            throw new NoSuchElementException("Tabellen er tom");
+        for(int i = 1; i < a.length; i++) {
+            if(a[i-1] > a[i]) {
                 int temp = a[i];
                 a[i] = a[i-1];
-                a[i-1] =  temp;
+                a[i-1] = temp;
             }
-
         }
-        return a[a.length-1];
+        return a[a.length - 1];
     }
 
-    public static int ombyttinger(int[] a)
-    {
-        //Diverse feilsjekk
-        if( a == null) throw new NullPointerException("Parametertabellen a er null!");
-        if(a.length == 0) throw new NoSuchElementException("Ingen verdier i a!");
-
+    public static int ombyttinger(int[] a) {
         int ombyttinger = 0;
-        for(int i = 1; i<a.length; i++)
-        {
-            if(a[i-1] > a[i])
-            {
+        if(a.length <= 0)
+            throw new NoSuchElementException("Tabellen er tom");
+        for(int i = 1; i < a.length; i++) {
+            if(a[i-1] > a[i]) {
                 int temp = a[i];
                 a[i] = a[i-1];
-                a[i-1] =  temp;
+                a[i-1] = temp;
                 ombyttinger++;
             }
-
         }
         return ombyttinger;
     }
 
     ///// Oppgave 2 //////////////////////////////////////
-    public static int antallUlikeSortert(int[] a)
-    {
-        int antallUlikeVerdier = 0;
-
-        if(a.length == 0) return antallUlikeVerdier;
-        else
-        {
-            antallUlikeVerdier++;
+    public static int antallUlikeSortert(int[] a) {
+        int antallUlike = 0;
+        if (a.length <= 0){
+            return antallUlike;
+        }else {
+            antallUlike = 1;
         }
-
-        for(int i = 1; i<a.length; i++)
-            {
-                if(a[i-1] > a[i]) throw new IllegalStateException("Tabellen er ikke sortert stigende");
-
-                if(a[i-1] != a[i]) {antallUlikeVerdier++;}
+        for (int  i = 1; i < a.length; i++){
+            if (a[i-1] > a[i]){
+                throw new IllegalStateException("Tabellen er ikke sortert stigende!");
             }
-
-        return antallUlikeVerdier;
+            if (a[i-1] != a[i]){
+                antallUlike++;
+            }
+        }
+        return antallUlike;
     }
 
 
 
     ///// Oppgave 3 //////////////////////////////////////
-    public static int antallUlikeUsortert(int[] a)
-    {
-        throw new NotImplementedException();
+    public static int antallUlikeUsortert(int[] a) {
+        if(a.length == 0)
+            return 0;
+
+        int antLike = 0;
+
+        for(int i = 0; i < a.length; i++)
+        {
+            for(int j = i + 1; j < a.length; j++)
+            {
+                if(a[j] == a[i])
+                    antLike++;
+            }
+        }
+
+        if(a.length - antLike < 0)
+            return -1 * (a.length - antLike);
+
+        return a.length - antLike;
+
     }
 
     ///// Oppgave 4 //////////////////////////////////////
     public static void delsortering(int[] a) {
-        throw new NotImplementedException();
+         int antallOddetall = 0;
+         int temp;
+         for (int i = 0; i < a.length; i++){
+             if ((Math.abs(a[i]) % 2) != 0){
+                 temp = a[antallOddetall];
+                 a[antallOddetall++] = a[i];
+                 a[i] = temp;
+             }
+         }
+         Hjelpemetoder.StorteringsMetoder.quickSort(a,0,antallOddetall-1);
+         Hjelpemetoder.StorteringsMetoder.quickSort(a,antallOddetall,a.length-1);
     }
 
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
-        throw new NotImplementedException();
+
+        if(a.length <= 0)
+            return;
+
+        char tempLast = a[a.length - 1];
+
+        for(int i = a.length - 1; i > 0; i--) {
+            a[i] = a[i - 1];
+        }
+        a[0] = tempLast;
     }
 
     ///// Oppgave 6 //////////////////////////////////////
     public static void rotasjon(char[] a, int k) {
-        throw new NotImplementedException();
+        if(a.length <= 0)
+            return;
+        
+        if(k < 0)
+        {
+            k = -k % a.length;
+            k = a.length - k;
+        }
+        int n = a.length;
+        int step = k % n;
+
+        reverser(a, 0, n-1);
+        reverser(a, 0, step-1);
+        reverser(a, step, n-1);
     }
+
+    // ***skal inn i hjelpemetoderklassen***
+    public static void reverser(char[] c, int left, int right){
+        char[] copy = c.clone();
+        for (int i = left; i <= right; i++){
+            c[i] = copy[right - i + left];
+        }
+    }
+
 
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
     public static String flett(String s, String t) {
-        throw new NotImplementedException();
+        StringBuilder flettet = new StringBuilder();
+        int lengde;
+
+        //En bedre måte å gjøre det på
+        //int lengde = (s.length() <= t.length()) ? t.length() : s.length();
+
+        if (s.length() < t.length()){
+            lengde = t.length();
+        }else if (t.length() < s.length()){
+            lengde = s.length();
+        }else {
+            lengde = s.length();
+        }
+
+        for (int i = 0; i < lengde; i++){
+            if (s.length() > i){
+                flettet.append(s.charAt(i));
+            }
+            if (t.length() > i){
+                flettet.append(t.charAt(i));
+            }
+        }
+        return flettet.toString();
     }
 
     /// 7b)
     public static String flett(String... s) {
-        throw new NotImplementedException();
+        int lengste = 0;
+        StringBuilder flettet = new StringBuilder();
+        for (String strenger : s) {
+            if (strenger.length() > lengste){
+                lengste = strenger.length();
+            }
+        }
+        for (int i = 0; i < lengste; i++){
+            for (String strenger2 : s) {
+                if (strenger2.length() > i){
+                    flettet.append(strenger2,i,i+1);
+                }
+            }
+        }
+        return flettet.toString();
     }
 
     ///// Oppgave 8 //////////////////////////////////////
@@ -116,7 +201,7 @@ public class Oblig1 {
 
         int[] b = a.clone();
 
-        Sortering.quickSort(b, 0, b.length - 1);
+        Hjelpemetoder.StorteringsMetoder.quickSort(b, 0, b.length - 1);
 
         int indeksretur = 0;
 
@@ -154,7 +239,41 @@ public class Oblig1 {
 
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
-        throw new NotImplementedException();
+        if (a.length < 3){
+            throw new NoSuchElementException("Tabellen må ha 3 eller flere elementer");
+        }
+        int minst = Integer.MAX_VALUE;
+        int nestMinst = Integer.MAX_VALUE;
+        int tredjeMinst = Integer.MAX_VALUE;
+
+        int minstIndex = 0;
+        int nestMinstIndex = 0;
+        int tredjeMinstIndex = 0;
+
+        for (int i = 0; i < a.length; i++){
+            if (a[i] < minst){
+                tredjeMinstIndex = nestMinstIndex;
+                tredjeMinst = nestMinst;
+
+                nestMinstIndex = minstIndex;
+                nestMinst = minst;
+
+                minstIndex = i;
+                minst = a[i];
+            }
+            else if (a[i] < nestMinst){
+                tredjeMinstIndex = nestMinstIndex;
+                tredjeMinst = nestMinst;
+
+                nestMinstIndex = i;
+                nestMinst = a[i];
+            }
+            else if (a[i] < tredjeMinst){
+                tredjeMinstIndex = i;
+                tredjeMinst = a[i];
+            }
+        }
+        return new int[]{minstIndex, nestMinstIndex, tredjeMinstIndex};
     }
     
     ///// Oppgave 10 //////////////////////////////////////

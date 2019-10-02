@@ -1,7 +1,20 @@
 package Hjelpemetoder;
 
-public class Sortering
-{
+public class StorteringsMetoder {
+
+    public static void bubbleSort(int[] a, int start, int end){
+        int temp;
+        for (int i = start; i < end; i++){
+            for (int j = start; j < (end -1); j++ ){
+                if (a[j] > a[j+1]){
+                    temp = a[j+1];
+                    a[j+1] = a[j];
+                    a[j] = temp;
+                }
+            }
+        }
+    }
+
     public static int partisjon(int a[], int start, int end)
     {
         int vippePunkt = a[end];
