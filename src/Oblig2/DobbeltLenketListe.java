@@ -23,7 +23,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * Node class
      * @param <T>
      */
-    private static final class Node<T> {
+    private static final class Node<T>
+    {
         private T verdi;                   // nodens verdi
         private Node<T> forrige, neste;    // pekere
 
@@ -44,31 +45,83 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    public DobbeltLenketListe() {
-        throw new NotImplementedException();
+
+    public DobbeltLenketListe()
+    {
+        hode= hale = null;
+        antall = 0;
     }
 
-    public DobbeltLenketListe(T[] a) {
-        throw new NotImplementedException();
+    public static void main(String[] args)
+    {
+        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
+        System.out.println(liste.toString() + " " + liste.omvendtString());
+        for (int i = 1; i <= 3; i++)
+        {
+            liste.leggInn(i);
+            System.out.println(liste.toString() + " " + liste.omvendtString());
+        }
+    }
+
+    //Oppgave 1
+    public DobbeltLenketListe(T[] a)
+    {
+        this();  // alle variabelene er nullet
+        Objects.requireNonNull(a, "Ikke tillatt med null-verdier!");
+        // Finner den første i a som ikke er null
+        int i = 0; for (; i < a.length && a[i] == null; i++);
+
+        if (i < a.length)
+        {
+            Node<T> current = hode = new Node<>(a[i],null, null);  // den første noden
+            antall = 1;                                 // vi har minst en node
+
+            for (i++; i < a.length; i++)
+            {
+                if (a[i] != null)
+                {
+                    current = current.neste = new Node<>(a[i], current,null);   // en ny node
+                    antall++;
+                }
+            }
+            hale = current;
+        }
     }
 
     public Liste<T> subliste(int fra, int til){
         throw new NotImplementedException();
     }
 
+    //Oppgave 1
     @Override
-    public int antall() {
-        throw new NotImplementedException();
+    public int antall()
+    {
+        return antall;
+    }
+    //Oppgave 1
+    @Override
+    public boolean tom()
+    {
+        return antall()==0;
     }
 
+    //Oppgave 2
     @Override
-    public boolean tom() {
-        throw new NotImplementedException();
-    }
+    public boolean leggInn(T verdi)
+    {
+        Objects.requireNonNull(verdi);
 
-    @Override
-    public boolean leggInn(T verdi) {
-        throw new NotImplementedException();
+        if(tom())
+        {
+            hode = hale = new Node<>(verdi, null, null);
+        }
+        else
+        {
+            hale = hale.neste = new Node<>(verdi,hale, null);
+        }
+        endringer++;
+        antall++;
+        return true;
     }
 
     @Override
@@ -111,14 +164,71 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new NotImplementedException();
     }
 
+    //Oppgave 2
     @Override
-    public String toString() {
-        throw new NotImplementedException();
+    public String toString()
+    {
+        if (antall == 0) {
+            return "[]";
+        }
+
+        StringBuilder s = new StringBuilder();
+        s.append("[");
+
+        if(!tom()){
+            Node<T> current = hode;
+            s.append(current.verdi);
+
+            current = current.neste;
+
+            while(current != null){
+                s.append(",").append(" ").append(current.verdi);
+                current = current.neste;
+            }
+        }
+
+        s.append("]");
+
+        return s.toString();
     }
 
-    public String omvendtString() {
-        throw new NotImplementedException();
+    //Oppgave 2
+    public String omvendtString()
+    {
+        if (antall == 0) {
+            return "[]";
+        }
+
+        StringBuilder s = new StringBuilder();
+        s.append("[");
+
+
+        if(!tom())
+        {
+            //Første node, starter fra halen. [Kari
+            Node<T> current = hale;
+            s.append(current.verdi);
+
+            //Loopen
+            current = current.forrige;
+
+            //Første kjøring [Kari, Lars
+            //Videre må vi sette at loopen går videre i while
+            while(current != null)
+            {
+                //
+                s.append(",").append(" ").append(current.verdi);
+                //Loop går videre
+                current = current.forrige;
+            }
+            s.append("]");
+            return s.toString();
+        }
+
+
+        return s.toString();
     }
+
 
     @Override
     public Iterator<T> iterator() {
