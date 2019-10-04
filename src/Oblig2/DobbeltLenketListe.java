@@ -17,7 +17,8 @@ import java.util.function.Predicate;
 
 
 
-public class DobbeltLenketListe<T> implements Liste<T> {
+public class DobbeltLenketListe<T> implements Liste<T>
+{
 
     /**
      * Node class
@@ -79,10 +80,42 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     }
 
+    private void fratilKontroll(int lengde, int fra, int til)
+    {
+        if(fra < 0)
+        {
+            throw new IndexOutOfBoundsException("Fra kan ikke være negativ!");
+        }
 
-    public Liste<T> subliste(int fra, int til){
-        throw new NotImplementedException();
+        if(til>lengde)
+        {
+            throw new IndexOutOfBoundsException("Til kan ikke være større en antall noder");
+        }
+
+        if(fra > til)
+        {
+            throw new IllegalArgumentException("Fra kan ikke være større en Til!");
+        }
+
     }
+
+    public Liste<T> subliste(int fra, int til)
+    {
+        fratilKontroll(antall, fra, til);
+
+        T[] a = (T[]) new  Object[til-fra];
+        int indeks = 0;
+
+        for(int i = fra; i < til; i++){
+            a[indeks] = hent(i);
+            indeks++;
+        }
+
+        DobbeltLenketListe<T> liste = new DobbeltLenketListe<>(a);
+        return liste;
+    }
+
+
 
     @Override
     public int antall()
@@ -90,6 +123,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return antall;
     }
 
+    private Node<T> finnNode(int indeks)
+    {
+        Node<T> current = hode;
+
+        if (indeks<antall/2)
+        {
+            for (int i = 0; i < indeks; i++) current = current.neste;
+        }
+            current = hale;
+            for (int i = antall-1; i > indeks; i--) current = current.forrige;
+
+            return current;
+
+    }
     @Override
     public boolean tom()
     {
@@ -97,8 +144,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public boolean leggInn(T verdi) {
-        throw new NotImplementedException();
+    public boolean leggInn(T verdi)
+    {
+        Objects.requireNonNull(verdi, "Verdi kan ikke være Null");
+
+        if(antall == 0)
+        {
+            hode = hale =  new Node<T>(verdi, null, null);
+            antall++;
+
+            return true;
+        }
+        else
+        {
+            hale = hale.neste =  new Node<T>(verdi, hale, null);
+            antall++;
+            endringer++;
+
+            return true;
+        }
     }
 
     @Override
@@ -112,8 +176,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public T hent(int indeks) {
-        throw new NotImplementedException();
+    public T hent(int indeks)
+    {
+        indeksKontroll(indeks, false);
+        return finnNode(indeks).verdi;
     }
 
     @Override
@@ -122,8 +188,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public T oppdater(int indeks, T nyverdi) {
-        throw new NotImplementedException();
+    public T oppdater(int indeks, T nyverdi)
+    {
+        Objects.requireNonNull(nyverdi, "Ny verdi kan ikke være null!");
+        indeksKontroll(indeks, false);
+
+        Node<T> currentindeks = finnNode(indeks);
+        T gammelVerdi = currentindeks.verdi;
+
+        currentindeks.verdi = nyverdi;
+        endringer++;
+        return gammelVerdi;
+
     }
 
     @Override
@@ -199,19 +275,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[]args)
     {
-        String[] s1 = {}, s2 = {"A"}, s3 = {null,"A",null,"B",null};
+        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
+        System.out.println(liste.toString() + " " + liste.omvendtString());
+        for (int i = 1; i <= 3; i++)
+        {
+            liste.leggInn(i);
+            System.out.println(liste.toString() + " " + liste.omvendtString());
+        }
 
-        DobbeltLenketListe<String> l1 = new DobbeltLenketListe<>(s1);
-        DobbeltLenketListe<String> l2 = new DobbeltLenketListe<>(s2);
-        DobbeltLenketListe<String> l3 = new DobbeltLenketListe<>(s3);
-
-        System.out.println(l1.toString());
-        System.out.println(l2.toString());
-        System.out.println(l3.toString());
-
-        System.out.println(l3.omvendtString());
-        System.out.println(l2.omvendtString());
-        System.out.println(l1.omvendtString());
 
     }
 
