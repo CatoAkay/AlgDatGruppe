@@ -44,26 +44,56 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    public DobbeltLenketListe() {
-        throw new NotImplementedException();
+    public DobbeltLenketListe()
+    {
+        hode = null;
+        hale = null;
+        antall = 0;
     }
 
-    public DobbeltLenketListe(T[] a) {
-        throw new NotImplementedException();
+    public DobbeltLenketListe(T[] a)
+    {
+        this();
+
+        Objects.requireNonNull(a, "Tabellen a er Null");
+
+        int i = 0; for (; i < a.length && a[i] == null; i++);
+
+
+        if(i < a.length)
+        {
+            Node<T> current = hode = new Node<T>(a[i], null, null);
+            antall++;
+
+            for (i++; i < a.length; i++)
+            {
+                if(a[i] != null)
+                {
+                    current = current.neste = new Node<T>(a[i], current,null);
+                    antall++;
+                }
+            }
+            hale = current;
+
+        }
+
     }
+
 
     public Liste<T> subliste(int fra, int til){
         throw new NotImplementedException();
     }
 
     @Override
-    public int antall() {
-        throw new NotImplementedException();
+    public int antall()
+    {
+        return antall;
     }
 
     @Override
-    public boolean tom() {
-        throw new NotImplementedException();
+    public boolean tom()
+    {
+        return (antall == 0);
     }
 
     @Override
@@ -112,12 +142,77 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public String toString() {
-        throw new NotImplementedException();
+    public String toString()
+    {
+        StringBuilder string = new StringBuilder();
+
+        string.append('[');
+
+        if (antall != 0)
+        {
+            Node<T> current = hode;
+            string.append(current.verdi);
+
+            current = current.neste;
+
+            while (current != null)
+            {
+                string.append(',').append(' ').append(current.verdi);
+                current = current.neste;
+            }
+
+        }
+        string.append(']');
+        return string.toString();
     }
 
+
+
     public String omvendtString() {
-        throw new NotImplementedException();
+
+        if(antall == 0)
+            return "[]";
+
+        StringBuilder string = new StringBuilder();
+
+        string.append('[');
+
+        if (antall != 0)
+        {
+
+            Node<T> current = hale;
+            string.append(current.verdi);
+
+            current = current.forrige;
+
+            while (current != null)
+            {
+                string.append(',').append(' ').append(current.verdi);
+                current = current.forrige;
+            }
+
+        }
+        string.append(']');
+        return string.toString();
+
+    }
+
+    public static void main(String[]args)
+    {
+        String[] s1 = {}, s2 = {"A"}, s3 = {null,"A",null,"B",null};
+
+        DobbeltLenketListe<String> l1 = new DobbeltLenketListe<>(s1);
+        DobbeltLenketListe<String> l2 = new DobbeltLenketListe<>(s2);
+        DobbeltLenketListe<String> l3 = new DobbeltLenketListe<>(s3);
+
+        System.out.println(l1.toString());
+        System.out.println(l2.toString());
+        System.out.println(l3.toString());
+
+        System.out.println(l3.omvendtString());
+        System.out.println(l2.omvendtString());
+        System.out.println(l1.omvendtString());
+
     }
 
     @Override
