@@ -98,16 +98,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if(fra>til) throw new IllegalArgumentException("fra > til");
     }
 
-    public static void main(String[] args)
-    {
-        String[] s1 = {"Jakk", "Petter", "Jakk", "Kjell"};
 
-        DobbeltLenketListe<String> liste = new DobbeltLenketListe<>(s1);
-        System.out.println(liste.toString());
-
-        System.out.println(liste.indeksTil(null));
-
-    }
 
     //Oppgave 1
     public DobbeltLenketListe(T[] a)
@@ -263,14 +254,123 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return gammelverdi;
     }
 
+
+
+
     @Override
-    public boolean fjern(T verdi) {
-        throw new NotImplementedException();
+    public boolean fjern(T verdi)
+    {
+        if(tom())
+        {
+            return false;
+        }
+
+        Node<T> current = hode; //Hjelpepekere
+
+        while(current != null)
+        {
+            if(current.verdi.equals(verdi)) break; //Verdien funnet
+            current = current.neste;
+        }
+
+        if(current == null)return false; //Fant ikke verdi
+
+        if(current == hode && antall != 1)
+        {
+            Node<T> next;
+            next = current.neste;
+            hode = next;
+            hode.forrige = null;
+            current.verdi = null;
+            current.neste = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+        else if(current == hode) // Siste node slettes
+        {
+            hode = hale = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+        else if (current == hale)
+        {
+            Node<T> prev;
+            prev = current.forrige;
+            hale = prev;
+            prev.neste = null;
+            current.verdi = null;
+            current.forrige = null;
+            antall --;
+            endringer++;
+            return true;
+        }
+        else
+        {
+            Node<T> prev;
+            prev = current.forrige;
+            Node<T> next;
+            next = current.neste;
+            prev.neste = next;
+            next.forrige = prev;
+            current.verdi = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        String[] s1 = {"A"};
+
+        DobbeltLenketListe<String> liste = new DobbeltLenketListe<>(s1);
+        System.out.println(liste.toString());
+
+
+        System.out.println(liste.fjern(0));
+        System.out.println(liste.omvendtString());
+        System.out.println(liste.fjern(0));
+        System.out.println(liste.omvendtString());
+        System.out.println(liste.fjern(0));
+        System.out.println(liste.omvendtString());
     }
 
     @Override
-    public T fjern(int indeks) {
-        throw new NotImplementedException();
+    public T fjern(int indeks){
+        indeksKontroll(indeks, false);
+        T temp;
+
+        if (indeks == 0) {
+            temp = hode.verdi;
+            if (antall == 1) {
+                hode = null;
+                hale = null;
+            }else {
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+        }else if(indeks == antall-1){
+            temp = hale.verdi;
+            hale = hale.forrige;
+            hale.neste = null;
+        } else{
+            Node<T> current = finnNode(indeks);
+            Node<T> prev = current.forrige;
+            Node<T> next = current.neste;
+            temp = current.verdi;
+
+            current.verdi = null;
+            current.forrige = null;
+            current.neste = null;
+
+            prev.neste = next;
+            next.forrige = prev;
+        }
+        endringer++;
+        antall--;
+        return temp;
     }
 
     @Override
