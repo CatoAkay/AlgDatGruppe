@@ -4,6 +4,7 @@ package Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Comparator;
@@ -45,11 +46,30 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new NotImplementedException();
+        this.hode = null;
+        this.hale = null;
+        this.antall = 0;
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new NotImplementedException();
+        this();
+        Objects.requireNonNull(a, "Tabellen a er null!");
+
+        int i = 0;
+        for (; i < a.length && a[i] == null; i++);
+
+        if (i < a.length){
+            Node<T> current = hode = new Node<>(a[i], null, null);
+            antall = 1;
+
+            for (i++; i < a.length; i++){
+                if (a[i] != null){
+                    current = current.neste = new Node<>(a[i], current, null);
+                    antall++;
+                }
+            }
+            hale = current;
+        }
     }
 
     public Liste<T> subliste(int fra, int til){
@@ -58,12 +78,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new NotImplementedException();
+        return antall;
     }
 
     @Override
     public boolean tom() {
-        throw new NotImplementedException();
+        if (antall == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
