@@ -502,9 +502,104 @@ public class DobbeltLenketListe<T> implements Liste<T>
             return temp;
         }
 
+
         @Override
-        public void remove(){
-            throw new NotImplementedException();
+        public void remove()
+        {
+            if (endringer != iteratorendringer)
+                throw new ConcurrentModificationException();
+
+            if (!fjernOK)
+                throw new IllegalStateException();
+
+            fjernOK = false;
+            Node<T> n1;
+            Node<T> n2;
+            Node<T> n3;
+
+            if(hode.neste == denne)
+            {
+                hode = hode.neste;
+                if(denne != null)
+                {
+                    hode.forrige.neste = null;
+                    hode.forrige.verdi = null;
+                    hode.forrige = null;
+
+                    antall --;
+                    endringer ++;
+                    iteratorendringer ++;
+                }
+                else
+                {
+                    hale = null;
+
+                    antall --;
+                    endringer ++;
+                    iteratorendringer ++;
+                }
+            }
+            else
+            {
+                if(denne == null)
+                {
+
+                    n1 = hale.forrige;
+                    hale.forrige = null;
+                    n1.neste = null;
+                    hale = n1;
+
+                    antall --;
+                    endringer ++;
+                    iteratorendringer ++;
+
+                }
+                else if(denne == hale)
+                {
+                    n1 = hale.forrige.forrige;
+                    n2 = hale.forrige;
+                    n3 = hale;
+
+
+                    n1.neste = n3;
+                    n3.forrige = n1;
+
+                    n2.neste = null;
+                    n2.forrige = null;
+
+                    antall --;
+                    endringer ++;
+                    iteratorendringer ++;
+                }
+                else
+                {
+                    n1 = denne.forrige.forrige;
+                    n2 = denne.forrige;
+                    n3 = denne;
+
+                    n1.neste = n3;
+                    n3.forrige = n1;
+
+                    n2.forrige=null;
+                    n2.neste=null;
+
+                    antall --;
+                    endringer ++;
+                    iteratorendringer ++;
+
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+
         }
 
     } // class DobbeltLenketListeIterator
