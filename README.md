@@ -2,8 +2,7 @@
 
 Denne oppgaven er en innlevering i Algoritmer og Datastrukturer. 
 Oppgaven er levert av følgende studenter:
-* Navn Navnesen, S981737, s981737@oslomet.no
-* ...
+
 * Bao Duy Nguyen - s169969 , s169969@oslomet.no
 * Cato Hilmi Akay - s326326 , s326326@oslomet.no
 * Jakkris Thongma - s197101 , s197101@oslomet.no
