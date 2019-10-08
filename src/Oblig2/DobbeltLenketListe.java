@@ -73,7 +73,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til){
-        throw new NotImplementedException();
+        fratilKontroll(fra, til);
+
+        T[] array = (T[]) new Object[til - fra];
+        int indeks = 0;
+
+        for ()
     }
 
     @Override
@@ -92,7 +97,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new NotImplementedException();
+        Objects.requireNonNull(verdi, "Veriden kan ikke være NULL!");
+        if (tom()){
+            hode = hale = new Node<>(verdi, null, null);
+        }else {
+            hale = hale.neste = new Node<>(verdi, hale, null);
+        }
+        endringer++;
+        antall++;
+        return true;
     }
 
     @Override
@@ -107,7 +120,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        throw new NotImplementedException();
+        indeksKontroll(indeks, false);
+        return finnNode(indeks).verdi;
     }
 
     @Override
@@ -117,7 +131,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new NotImplementedException();
+        Objects.requireNonNull(nyverdi, "Veriden kan ikke være null");
+        indeksKontroll(indeks, false);
+
+        Node<T> temp = finnNode(indeks);
+        T gammelVerdi = temp.verdi;
+        temp.verdi = nyverdi;
+        endringer++;
+
+        return gammelVerdi;
     }
 
     @Override
@@ -137,11 +159,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        throw new NotImplementedException();
+        if (antall == 0) {
+            return "[]";
+        }
+        StringBuilder s = new StringBuilder();
+        s.append("[");
+
+        if (!tom()){
+            Node<T> current = hode;
+            s.append(current.verdi);
+            current = current.neste;
+
+            while (current != null){
+                s.append(", ").append(current.verdi);
+                current = current.neste;
+            }
+        }
+        s.append("]");
+        return s.toString();
     }
 
     public String omvendtString() {
-        throw new NotImplementedException();
+        if (antall == 0){
+            return "[]";
+        }
+        StringBuilder s = new StringBuilder();
+        s.append("[");
+
+        if (!tom()){
+            Node<T> current = hale;
+            s.append(current.verdi);
+            current = current.forrige;
+
+            while (current != null){
+                s.append(", ").append(current.verdi);
+                current = current.forrige;
+            }
+        }
+        s.append("]");
+        return s.toString();
     }
 
     @Override
@@ -188,6 +244,43 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new NotImplementedException();
     }
 
+    private Node<T> finnNode(int indeks){
+        int start = antall/2;
+        Node<T> current;
+        if (indeks >= start){
+            current = hale;
+            for (int i = antall -1; i >= indeks; i--){
+                if (i != indeks){
+                    current = current.forrige;
+                }else {
+                    return current;
+                }
+            }
+        }else {
+            current = hode;
+            for (int i = 0; i <=indeks; i++){
+                if (i != indeks){
+                    current = current.neste;
+                }
+                else {
+                    return current;
+                }
+            }
+        }
+        return current;
+    }
+
+    private void fratilKontroll(int fra, int til){
+        if (fra < 0){
+            throw new IndexOutOfBoundsException("Oppgi gyldig 'fra' parameter, feil: " + fra);
+        }
+        if (til > antall){
+            throw new IndexOutOfBoundsException("Oppgi gylding 'til' parameter, feil: " + til);
+        }
+        if (fra > til){
+            throw new IllegalArgumentException("Fra må være mindre en til");
+        }
+    }
 } // class DobbeltLenketListe
 
 
