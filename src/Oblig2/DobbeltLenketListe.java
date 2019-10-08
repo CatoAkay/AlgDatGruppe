@@ -321,21 +321,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
     }
 
-    public static void main(String[] args)
-    {
-        String[] s1 = {"A"};
 
-        DobbeltLenketListe<String> liste = new DobbeltLenketListe<>(s1);
-        System.out.println(liste.toString());
-
-
-        System.out.println(liste.fjern(0));
-        System.out.println(liste.omvendtString());
-        System.out.println(liste.fjern(0));
-        System.out.println(liste.omvendtString());
-        System.out.println(liste.fjern(0));
-        System.out.println(liste.omvendtString());
-    }
 
     @Override
     public T fjern(int indeks){
@@ -373,9 +359,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return temp;
     }
 
+    public static void main(String[] args)
+    {
+        String[] navn = {"Lars","Anders","Bodil","Kari","Per","Berit"};
+        Liste<String> liste = new DobbeltLenketListe<>(navn);
+        liste.forEach(s -> System.out.print(s + " "));
+        System.out.println();
+        for (String s : liste) System.out.print(s + " ");
+    }
     @Override
-    public void nullstill() {
-        throw new NotImplementedException();
+    public void nullstill()
+    {
+        /* Manuelt:
+        Node<T> current = hode, next = null;
+        while(current != null)
+        {
+            next = current.neste;
+            current.forrige = null;
+            current.neste = null;
+            current.verdi = null;
+            current = next;
+        }
+        hode = hale = null;
+        antall = 0;
+        */
+        while(antall!= 0)
+        {
+            fjern(0);
+        }
     }
 
     //Oppgave 2
@@ -438,12 +449,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     @Override
-    public Iterator<T> iterator() {
-        throw new NotImplementedException();
+    public Iterator<T> iterator()
+    {
+        return new DobbeltLenketListeIterator();
     }
 
-    public Iterator<T> iterator(int indeks) {
-        throw new NotImplementedException();
+    public Iterator<T> iterator(int indeks)
+    {
+        indeksKontroll(indeks, false);
+        return new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -453,21 +467,36 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private int iteratorendringer;
 
         private DobbeltLenketListeIterator(){
-            throw new NotImplementedException();
+            denne = hode;     // p starter på den første i listen
+            fjernOK = false;  // blir sann når next() kalles
+            iteratorendringer = endringer;  // teller endringer
         }
 
-        private DobbeltLenketListeIterator(int indeks){
-            throw new NotImplementedException();
+        private DobbeltLenketListeIterator(int indeks)
+        {
+            denne = finnNode(indeks);
+            fjernOK = false;
+            iteratorendringer = endringer;
         }
 
         @Override
         public boolean hasNext(){
-            throw new NotImplementedException();
+            return denne != null;
         }
 
         @Override
-        public T next(){
-            throw new NotImplementedException();
+        public T next()
+        {
+            if(iteratorendringer != endringer) throw new ConcurrentModificationException("Iterator endringer ikke lik endringer");
+            if(!hasNext())
+            {
+                throw new NoSuchElementException("Ingen flere elementer");
+            }
+
+            fjernOK = true;
+            T denneVerdi = denne.verdi;
+            denne = denne.neste;
+            return denneVerdi;
         }
 
         @Override
