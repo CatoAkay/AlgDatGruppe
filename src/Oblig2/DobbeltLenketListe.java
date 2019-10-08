@@ -245,14 +245,119 @@ public class DobbeltLenketListe<T> implements Liste<T>
     }
 
     @Override
-    public boolean fjern(T verdi) {
-        throw new NotImplementedException();
+    public boolean fjern(T verdi)
+    {
+        if(antall == 0)
+        {
+            return false;
+        }
+
+        Node<T> current = hode;
+        Node<T> next;
+        Node<T> prev;
+
+        while(current != null)
+        {
+            if(current.verdi.equals(verdi)) break;
+            current = current.neste;
+        }
+
+        if(current == null)return false;
+
+        if(current == hode && antall != 1)
+        {
+            next = current.neste;
+            hode = next;
+            hode.forrige = null;
+            current.verdi = null;
+            current.neste = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+        else if(current == hode)
+        {
+            hode = hale = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+        else if (current == hale)
+        {
+            prev = current.forrige;
+            hale = prev;
+            prev.neste = null;
+            current.verdi = null;
+            current.forrige = null;
+            antall --;
+            endringer++;
+            return true;
+        }
+        else
+        {
+            prev = current.forrige;
+            next = current.neste;
+            prev.neste = next;
+            next.forrige = prev;
+            current.verdi = null;
+            antall--;
+            endringer++;
+            return true;
+        }
     }
 
+
     @Override
-    public T fjern(int indeks) {
-        throw new NotImplementedException();
+    public T fjern(int indeks)
+    {
+
+        indeksKontroll(indeks, false);
+
+        T current;
+
+        if (indeks == 0)
+        {
+            current = hode.verdi;
+
+            if (antall == 1)
+            {
+                hode = null;
+                hale = null;
+            }
+            else
+            {
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+        }
+        else if(indeks == antall-1)
+        {
+            current = hale.verdi;
+            hale = hale.forrige;
+            hale.neste = null;
+        }
+        else
+        {
+            Node<T> q = finnNode(indeks);
+            Node<T> p = q.forrige;
+            Node<T> r = q.neste;
+            current = q.verdi;
+
+            q.verdi = null;
+            q.forrige = null;
+            q.neste = null;
+
+            p.neste = r;
+            r.forrige = p;
+
+        }
+
+        endringer++;
+        antall--;
+        return current;
     }
+
+
 
     @Override
     public void nullstill() {
