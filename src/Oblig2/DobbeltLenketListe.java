@@ -78,7 +78,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         T[] array = (T[]) new Object[til - fra];
         int indeks = 0;
 
-        for ()
+        for (int i = fra; i <til; i++){
+            array[indeks] = hent(i);
+            indeks++;
+        }
+
+        DobbeltLenketListe<T> liste = new DobbeltLenketListe<>(array);
+        return liste;
     }
 
     @Override
@@ -110,12 +116,36 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new NotImplementedException();
+        Objects.requireNonNull(verdi);
+        indeksKontroll(indeks, false);
+
+        if (indeks == 0){
+            hode = new Node<>(verdi, null, hode);
+            if (antall == 0){
+                hale = hode;
+            }else {
+                hode.neste.forrige = hode;
+            }
+        }else if (indeks == antall){
+            hale = hale.neste = new Node<>(verdi, hale, null);
+        }else {
+            Node<T> prevNode = finnNode(indeks-1);
+            Node<T> nextNode = finnNode(indeks);
+            Node<T> current = new Node<>(verdi, prevNode, nextNode);
+            prevNode.neste = current;
+            nextNode.forrige = current;
+        }
+        antall++;
+        endringer++;
     }
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new NotImplementedException();
+        if (indeksTil(verdi) != -1){
+            return false;
+        }else {
+            return true;
+        }
     }
 
     @Override
@@ -126,7 +156,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        throw new NotImplementedException();
+        for (int i = 0; i < antall; i++){
+            T hentet = hent(i);
+            if (hentet.equals(verdi)){
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -144,17 +180,106 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new NotImplementedException();
+        if (tom()){
+            return false;
+        }
+
+        Node<T> current = hode;
+
+        while (current != null){
+            if (current.verdi.equals(verdi)){
+                break;
+            }
+            current = current.neste;
+        }
+
+        if (current == null){
+            return false;
+        }
+
+        if (current == hode && antall != 1){
+            Node<T> next;
+            next = current.neste;
+            hode = next;
+            hode.forrige = null;
+            current.verdi = null;
+            current.neste = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+        else if (current == hode){
+            hode = hale = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+        else if (current == hale){
+            Node<T> prev;
+            prev = current.forrige;
+            hale = prev;
+            hale.neste = null;
+            current.verdi = null;
+            current.forrige = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+        else {
+            Node<T> prev;
+            prev = current.forrige;
+            Node<T> next;
+            next = current.neste;
+            prev.neste = next;
+            next.forrige = prev;
+            current.verdi = null;
+            antall--;
+            endringer++;
+            return true;
+        }
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new NotImplementedException();
+        indeksKontroll(indeks, false);
+        T temp;
+
+        if (indeks == 0){
+            temp = hode.verdi;
+            if (antall == 1){
+                hode = null;
+                hale = null;
+            }else {
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+        }else if (indeks == antall-1){
+            temp = hale.verdi;
+            hale = hale.forrige;
+            hale.neste = null;
+        }else {
+            Node<T> current = finnNode(indeks);
+            Node<T> prev = current.forrige;
+            Node<T> next = current.neste;
+            temp = current.verdi;
+
+            current.verdi = null;
+            current.neste = null;
+            current.forrige = null;
+
+            prev.neste = next;
+            next.forrige = prev;
+        }
+        endringer++;
+        antall--;
+        return temp;
     }
 
     @Override
     public void nullstill() {
-        throw new NotImplementedException();
+        while (antall != 0){
+            fjern(0);
+        }
     }
 
     @Override
@@ -202,11 +327,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new NotImplementedException();
+        return new DobbeltLenketListeIterator();
     }
 
     public Iterator<T> iterator(int indeks) {
-        throw new NotImplementedException();
+        indeksKontroll(indeks, false);
+        return new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -216,21 +342,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private int iteratorendringer;
 
         private DobbeltLenketListeIterator(){
-            throw new NotImplementedException();
+            denne = hode;     // denne starter på den første i listen
+            fjernOK = false;  // blir sann når next() kalles
+            iteratorendringer = endringer;  // teller endringer
         }
 
         private DobbeltLenketListeIterator(int indeks){
-            throw new NotImplementedException();
+            denne = hode;
+            fjernOK = false;
+            iteratorendringer = endringer;
         }
 
         @Override
         public boolean hasNext(){
-            throw new NotImplementedException();
+            return denne != null;
         }
 
         @Override
         public T next(){
-            throw new NotImplementedException();
+            if (iteratorendringer != endringer){
+                throw new ConcurrentModificationException("Ikke like mange endringer!");
+            }
+            if (!hasNext()) {
+                throw new NoSuchElementException("Det er ikke flere elementer!");
+            }
+            fjernOK = true;
+            T denneVerdi = denne.verdi;
+            denne = denne.neste;
+            return denneVerdi;
         }
 
         @Override

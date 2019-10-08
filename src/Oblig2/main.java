@@ -3,12 +3,10 @@ package Oblig2;
 public class main {
 
     public static void main(String[] args) {
-        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
-        System. out .println(liste.toString() + " " + liste.omvendtString());
-        for ( int i = 1; i <= 3; i++)
-        {
-            liste.leggInn(i);
-            System. out .println(liste.toString() + " " + liste.omvendtString());
-        }f
+        String[] navn = { "Lars" , "Anders" , "Bodil" , "Kari" , "Per" , "Berit" };
+        Liste<String> liste = new DobbeltLenketListe<>(navn);
+        liste.forEach(s -> System. out .print(s + " " ));
+        System. out .println();
+        for (String s : liste) System. out .print(s + " " );
     }
 }
