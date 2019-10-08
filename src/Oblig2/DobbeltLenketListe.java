@@ -360,8 +360,37 @@ public class DobbeltLenketListe<T> implements Liste<T>
 
 
     @Override
-    public void nullstill() {
-        throw new NotImplementedException();
+    public void nullstill()
+    {
+        /*
+        Node<T> current = hode;
+        Node <T> temp = null;
+
+        while (current != null)
+        {
+            temp = current.neste;
+            current.neste = null;
+            current.verdi = null;
+            current.forrige = null;
+            current = temp;
+            endringer++;
+        }
+        hode = hale = null;
+        antall = 0; */
+
+        //Metode 2
+
+        //For-løkke
+        /*for(int i = 0; antall > 0; i++)
+        {
+            fjern(0);
+        } */
+
+        //While-Løkke
+        while(antall!=0)
+        {
+            fjern(0);
+        }
     }
 
     @Override
@@ -420,18 +449,6 @@ public class DobbeltLenketListe<T> implements Liste<T>
 
     }
 
-    public static void main(String[]args)
-    {
-        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
-        System.out.println(liste.toString() + " " + liste.omvendtString());
-        for (int i = 1; i <= 3; i++)
-        {
-            liste.leggInn(i);
-            System.out.println(liste.toString() + " " + liste.omvendtString());
-        }
-
-
-    }
 
     @Override
     public Iterator<T> iterator() {
