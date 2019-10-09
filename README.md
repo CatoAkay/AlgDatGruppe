@@ -10,11 +10,11 @@ Oppgaven er levert av følgende studenter:
 
 # Arbeidsfordeling
 
-I oppgaven har vi hatt følgende arbeidsfordeling:
+I oppgaven har vi hatt følgende hovedansvar:
 * Bao har hatt hovedansvar for oppgave 1, 2, og 3. 
 * Jack har hatt hovedansvar for oppgave 4, 5, og 6. 
 * Amir har hatt hovedansvar for oppgave 7 og 8. 
-* Amir har hatt hovedansvar for oppgave 9 og 10. 
+* Cato har hatt hovedansvar for oppgave 9 og 10. 
 
 Vi har benyttet oss av parprogrammering når vi har jobbet med oppgavene, derfor har det blitt mye jobbing på en branch.
 Dette resulterer i et GitHub historikk som kan vise feil når det kommer til commits. Men vi har alle samarbeidet med å
