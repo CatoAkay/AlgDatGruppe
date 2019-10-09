@@ -1,9 +1,9 @@
-/*
-Medlemmer:
-Jakkris Thongma - s197101
-Bao Duy Nguyen - s169969
-Cato Hilmi Akay - s326326
-Amirhan Hadzjaev - s326322
+/**
+ * Medlemmer:
+ * Jakkris Thongma - s197101
+ * Bao Duy Nguyen - s169969
+ * Cato Hilmi Akay - s326326
+ * Amirhan Hadzjaev - s326322
  */
 ////////////////// class DobbeltLenketListe //////////////////////////////
 package Oblig2;
