@@ -372,10 +372,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             return denneVerdi;
         }
 
-        @Override
+/*        @Override
         public void remove(){
-            throw new NotImplementedException();
-        }
+            if (endringer != iteratorendringer){
+                throw new ConcurrentModificationException();
+            }
+
+            if (!fjernOK){
+                throw new IllegalStateException();
+            }
+
+            fjernOK = false;
+            Node<T> n1;
+            Node<T> n2;
+            Node<T> n3;
+
+            if (hode.neste == denne){
+                hode = hode.neste;
+                if (denne != null){
+
+                }
+            }
+
+        }*/
 
     } // class DobbeltLenketListeIterator
 
