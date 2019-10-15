@@ -1,3 +1,11 @@
+/**
+ * Medlemmer:
+ * Jakkris Thongma - s197101
+ * Bao Duy Nguyen - s169969
+ * Cato Hilmi Akay - s326326
+ * Amirhan Hadzjaev - s326322
+ */
+////////////////// class DobbeltLenketListe //////////////////////////////
 package Oblig2;
 
 
@@ -24,7 +32,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
      * Node class
      * @param <T>
      */
-    private static final class Node<T> {
+    private static final class Node<T>
+    {
         private T verdi;                   // nodens verdi
         private Node<T> forrige, neste;    // pekere
 
@@ -40,10 +49,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     // instansvariabler
-    private Node<T> hode;          // peker til den første i listen
-    private Node<T> hale;          // peker til den siste i listen
-    private int antall;            // antall noder i listen
-    private int endringer;         // antall endringer i listen
+    private Node<T> hode;
+    private Node<T> hale;
+    private int antall;
+    private int endringer;
 
     public DobbeltLenketListe() {
         this.hode = null;
@@ -79,6 +88,47 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         int indeks = 0;
 
         for (int i = fra; i <til; i++){
+            array[indeks] = hent(i);
+            indeks++;
+        }
+
+        DobbeltLenketListe<T> liste = new DobbeltLenketListe<>(array);
+        return liste;
+    }
+
+    public DobbeltLenketListe(T[] a)
+    {
+        this();
+        Objects.requireNonNull(a, "Ikke tillatt med null-verdier!");
+
+        int i = 0; for (; i < a.length && a[i] == null; i++);
+
+        if (i < a.length)
+        {
+            Node<T> current = hode = new Node<>(a[i],null, null);
+            antall = 1;
+
+            for (i++; i < a.length; i++)
+            {
+                if (a[i] != null)
+                {
+                    current = current.neste = new Node<>(a[i], current,null);
+                    antall++;
+                }
+            }
+            hale = current;
+        }
+    }
+
+    public Liste<T> subliste(int fra, int til)
+    {
+        fratilKontroll(fra,til);
+
+        T[] array =(T[]) new Object[til-fra];
+        int indeks = 0;
+
+        for(int i = fra; i<til; i++)
+        {
             array[indeks] = hent(i);
             indeks++;
         }
@@ -398,8 +448,27 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     } // class DobbeltLenketListeIterator
 
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new NotImplementedException();
+    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c)
+    {
+        boolean sorted = false;
+
+        while(!sorted)
+        {
+            sorted = true;
+
+            for(int i = 0; i<liste.antall()-1; i++)
+            {
+                T hent1 = liste.hent(i);
+                T hent2 = liste.hent(i+1);
+                if(c.compare(hent1, hent2) > 0) //
+                {
+                    T temp = hent1;
+                    liste.fjern(i);
+                    liste.leggInn(i+1, temp);
+                    sorted = false;
+                }
+            }
+        }
     }
 
     private Node<T> finnNode(int indeks){
