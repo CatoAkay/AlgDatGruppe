@@ -108,15 +108,21 @@ public class ObligSBinTre<T> implements Beholder<T>
   
   public int antall(T verdi)
   {
-
     Node<T> p = rot;
-    int ant = antall();
+    int antallVerdi = 0;
 
+    while (p != null)
+    {
+      int cmp = comp.compare(verdi,p.verdi);
 
-
-
-
-    return 1;
+      if (cmp < 0) p = p.venstre; //Mindre går derfor mot venstre
+      else
+      {
+        if (cmp == 0) antallVerdi++;
+        p = p.høyre; //Større eller lik, går derfor mot høyre
+      }
+    }
+    return antallVerdi;
   }
   
   @Override
