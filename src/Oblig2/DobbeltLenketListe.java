@@ -611,6 +611,7 @@ public class DobbeltLenketListe<T> implements Liste<T>
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c)
     {
+<<<<<<< Updated upstream
         boolean sorted = false;
 
         while(!sorted)
@@ -631,6 +632,22 @@ public class DobbeltLenketListe<T> implements Liste<T>
             }
         }
     }
+=======
+        if(liste.antall() == 1)
+            return;
+
+
+        
+
+
+
+
+
+
+
+
+}
+>>>>>>> Stashed changes
 
 } // class DobbeltLenketListe
 
