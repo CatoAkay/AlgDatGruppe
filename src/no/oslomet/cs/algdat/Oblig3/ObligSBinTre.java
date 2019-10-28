@@ -111,13 +111,112 @@ public class ObligSBinTre<T> implements Beholder<T> {
   }
 
 
+
+
   @Override
-  public boolean fjern(T verdi) {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public boolean fjern(T verdi)
+  {
+    if (verdi == null) return false;  // treet har ingen nullverdier
+
+    Node<T> p = rot, q = null;   // q skal være forelder til p
+
+    while (p != null)            // leter etter verdi
+    {
+      int cmp = comp.compare(verdi,p.verdi);      // sammenligner
+      if (cmp < 0) { q = p; p = p.venstre; }      // går til venstre
+      else if (cmp > 0) { q = p; p = p.høyre; }   // går til høyre
+      else break;    // den søkte verdien ligger i p
+    }
+    if (p == null) return false;   // finner ikke verdi
+
+    //Funnet eller ikke funnet verdien: Gjort
+
+    //Slett en bladnode eller en node med nøyaktig 1 barn
+
+    if (p.venstre == null || p.høyre == null)  // Tilfelle 1) og 2)
+    {
+      Node<T> b;
+      if(p.venstre != null)
+      {
+        b = p.venstre;
+      }
+      else
+      {
+        b = p.høyre;
+      }
+
+      if (p == rot)
+      {
+        rot = b; //Sletter vi rot?
+      }
+      else if (p == q.venstre)
+      {
+        if(b!= null)
+        {
+          q.venstre = b;
+          b.forelder = q;
+        }
+        else
+        {
+          q.venstre = null;
+        }
+      }
+      else
+      {
+        if(b!= null)
+        {
+          q.høyre = b;
+          b.forelder = q;
+        }
+        else
+        {
+          q.høyre = null;
+        }
+      }
+    }
+    else  // Tilfelle 3)
+    {
+      Node<T> s = p, r = p.høyre;   // finner neste i inorden
+      while (r.venstre != null)
+      {
+        s = r;    // s er forelder til r
+        r = r.venstre;
+      }
+
+      p.verdi = r.verdi;   // kopierer verdien i r til p
+
+      if (s != p)
+      {
+        if(r.høyre != null)
+        {
+          s.venstre = r.høyre;
+        }
+        else
+        {
+          s.venstre = null;
+          r.forelder = null;
+          r = null;
+        }
+
+      }
+      else
+      {
+        r = r.høyre;
+        s.høyre = r;
+        r.forelder = s;
+      }
+    }
+    antall--;   // det er nå én node mindre i treet
+    return true;
   }
 
-  public int fjernAlle(T verdi) {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public int fjernAlle(T verdi)
+  {
+    int antallFjernet = 0;
+    while (fjern(verdi)){
+      antallFjernet++;
+    }
+    return antallFjernet;
   }
 
   @Override
@@ -132,9 +231,23 @@ public class ObligSBinTre<T> implements Beholder<T> {
   }
 
   @Override
-  public void nullstill() {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public void nullstill()
+  {
+    Node <T> p = rot;
+    if(tom()) return;
+    while(p.venstre != null)
+    {
+      p = p.venstre;
+    }
+
+    while(antall != 0)
+    {
+      Node <T> neste = nesteInorden(p);
+      fjern(p.verdi);
+      p = neste;
+    }
   }
+
 
 
   private static <T> Node<T> nesteInorden(Node<T> p) {
@@ -149,30 +262,10 @@ public class ObligSBinTre<T> implements Beholder<T> {
       while (p.forelder != null && p == p.forelder.høyre) {
         p = p.forelder;
       }
-
       p = p.forelder;
     }
-
     return p;
   }
-
-    /*
-    Case 1: Node has right subtree
-    Go deep to leftmost node in right subtree
-    Find min in right subtree
-    case 2: no right subtree
-    if child left: go to parent
-    if child right: go to parent.parent
-
-
-  */
-
-  /*
-  Inorder:
-  1: Visit left-subtree
-  2: Visit root
-  3: Visit right subtree
-   */
 
   @Override
   public String toString() {
@@ -195,15 +288,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
     s.append("]");
     return s.toString();
   }
-
-  public static void main(String[] args)
-  {
-    int[] a = {4,2,1,3,5};
-    ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
-    for (int verdi : a) tre.leggInn(verdi);
-    System.out.println(tre.omvendtString()); // [10, 9, 8, 7, 7, 6, 4, 4, 4, 2, 1]
-  }
-
 
 
   public String omvendtString()
@@ -233,26 +317,120 @@ public class ObligSBinTre<T> implements Beholder<T> {
     return s.toString();
   }
 
-  /*
-  Traversere treet i omvendt inorden iterativt.
-  Skal bruke en hjelpestakk
-  skal ikke bruke rekursjon
+  public static void main(String[] args)
+  {
+    ObligSBinTre<Character> tre = new ObligSBinTre<>(Comparator.naturalOrder());
+    char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
+    for (char c : verdier) tre.leggInn(c);
+    System.out.println(tre);
+    System.out.println(tre.høyreGren());
+  }
 
-   */
-  
   public String høyreGren()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    Deque<Node> stack = new ArrayDeque<>();
+    Node p = rot;
+    if(tom()) return "[]";
+
+    //Finn største bladnode
+    while (p != null || !stack.isEmpty())
+    {
+
+      while (p.høyre != null) {
+        stack.push(p);
+        p = p.høyre;
+      }
+
+      if (p.venstre == null && p.høyre == null){
+        break;
+      }
+      stack.push(p);
+      p = p.venstre;
+    }
+    stack.push(p);
+    StringJoiner s = new StringJoiner(", ", "[","]");
+
+    while(!stack.isEmpty())
+    {
+      p = stack.pollLast();
+      s.add(p.verdi.toString());
+    }
+    return s.toString();
   }
   
   public String lengstGren()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    if (antall == 0){
+      return "[]";
+    }
+    String [] strings = grener();
+    String lengsteString = strings[strings.length-1];
+    int lengsteLength = 0;
+    if (strings.length == 1){
+      return lengsteString;
+    }else {
+
+      for (String counter:lengsteString.split(",")) {
+        lengsteLength++;
+      }
+    }
+
+    for (int i = strings.length-2; i >= 0; i--){
+      String string = strings[i];
+      int stringLength = 0;
+      for (String count:string.split(",")) {
+        stringLength++;
+      }
+      if (stringLength >= lengsteLength){
+        lengsteLength = stringLength;
+        lengsteString = string;
+      }
+    }
+    return lengsteString;
   }
   
   public String[] grener()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    Deque<Node> stack = new ArrayDeque<>();
+    Deque<Node> bladStack = new ArrayDeque<>();
+    Deque<Node> hjelpeBladStack = new ArrayDeque<>();
+    Node p = rot;
+    int i = 0;
+    int j = 0;
+
+    while (p != null || !stack.isEmpty()){
+      while (p !=  null){
+        if (p.venstre == null && p.høyre == null){
+          bladStack.push(p);
+          i++;
+        }
+        stack.push(p);
+        p = p.venstre;
+      }
+      p = stack.pop();
+      p = p.høyre;
+    }
+
+    String[] strings = new String[i];
+
+    while (!bladStack.isEmpty()){
+      p = bladStack.pop();
+      while (p != null){
+        hjelpeBladStack.push(p);
+        p = p.forelder;
+      }
+
+      StringJoiner s = new StringJoiner(", ", "[", "]");
+      while (!hjelpeBladStack.isEmpty()){
+        p = hjelpeBladStack.pop();
+        s.add(p.verdi.toString());
+      }
+
+
+      strings[i-1] = s.toString();
+      i--;
+    }
+    return strings;
   }
   
   public String bladnodeverdier()
