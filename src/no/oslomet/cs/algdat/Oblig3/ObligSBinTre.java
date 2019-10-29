@@ -4,7 +4,8 @@ package no.oslomet.cs.algdat.Oblig3;
 
 import java.util.*;
 
-public class ObligSBinTre<T> implements Beholder<T> {
+public class ObligSBinTre<T> implements Beholder<T>
+{
   private static final class Node<T>   // en indre nodeklasse
   {
     private T verdi;                   // nodens verdi
@@ -43,6 +44,29 @@ public class ObligSBinTre<T> implements Beholder<T> {
     rot = null;
     antall = 0;
     comp = c;
+  }
+
+  //hjelpemetoder
+  public void getLeafNodes(Node<T> node, Deque stack)
+  {
+    if(node == null) return;
+
+    //Funnet bladnode
+    if(node.venstre == null && node.høyre ==null)
+    {
+      stack.push(node);
+    }
+
+    if(node.venstre != null)
+    {
+      getLeafNodes(node.venstre, stack);
+    }
+
+    if(node.høyre != null)
+    {
+      getLeafNodes(node.høyre, stack);
+    }
+
   }
 
   @Override
@@ -197,7 +221,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
           r.forelder = null;
           r = null;
         }
-
       }
       else
       {
@@ -317,14 +340,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
     return s.toString();
   }
 
-  public static void main(String[] args)
-  {
-    ObligSBinTre<Character> tre = new ObligSBinTre<>(Comparator.naturalOrder());
-    char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
-    for (char c : verdier) tre.leggInn(c);
-    System.out.println(tre);
-    System.out.println(tre.høyreGren());
-  }
+
 
   public String høyreGren()
   {
@@ -360,75 +376,79 @@ public class ObligSBinTre<T> implements Beholder<T> {
   
   public String lengstGren()
   {
-    if (antall == 0){
+    if (antall == 0)
+    {
       return "[]";
     }
+
     String [] strings = grener();
     String lengsteString = strings[strings.length-1];
-    int lengsteLength = 0;
-    if (strings.length == 1){
+    int lengste = 0;
+
+    if (strings.length == 1)
+    {
       return lengsteString;
-    }else {
-
-      for (String counter:lengsteString.split(",")) {
-        lengsteLength++;
-      }
     }
-
-    for (int i = strings.length-2; i >= 0; i--){
-      String string = strings[i];
-      int stringLength = 0;
-      for (String count:string.split(",")) {
-        stringLength++;
-      }
-      if (stringLength >= lengsteLength){
-        lengsteLength = stringLength;
-        lengsteString = string;
+    else
+    {
+      for(String s : strings)
+      {
+        String [] antallNoder = s.split(",");
+        int lengde = antallNoder.length;
+        if(lengde > lengste)
+        {
+          lengste = lengde;
+          lengsteString = s;
+        }
       }
     }
     return lengsteString;
   }
-  
+
+  public static void main(String[] args)
+  {
+    ObligSBinTre<Character> tre = new ObligSBinTre<>(Comparator.naturalOrder());
+    char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
+    for (char c : verdier) tre.leggInn(c);
+
+    tre.grener();
+    String[] s = tre.grener();
+
+
+    System.out.println(tre.lengstGren());
+
+  }
+
+
+
   public String[] grener()
   {
-    Deque<Node> stack = new ArrayDeque<>();
-    Deque<Node> bladStack = new ArrayDeque<>();
-    Deque<Node> hjelpeBladStack = new ArrayDeque<>();
-    Node p = rot;
-    int i = 0;
+    Deque<Node<T>> stack = new ArrayDeque();
+    //Hent alle bladnoder rekursiv hjelpemetode
+    getLeafNodes(rot, stack);
     int j = 0;
+    String [] strings = new String[stack.size()];
 
-    while (p != null || !stack.isEmpty()){
-      while (p !=  null){
-        if (p.venstre == null && p.høyre == null){
-          bladStack.push(p);
-          i++;
-        }
-        stack.push(p);
-        p = p.venstre;
-      }
-      p = stack.pop();
-      p = p.høyre;
-    }
+    while(!stack.isEmpty())
+    {
+      StringJoiner s = new StringJoiner(", ", "[","]");
+      Deque<Node<T>> hjelpestack = new ArrayDeque();
+      Node p = stack.pollLast();
+      hjelpestack.add(p);
 
-    String[] strings = new String[i];
-
-    while (!bladStack.isEmpty()){
-      p = bladStack.pop();
-      while (p != null){
-        hjelpeBladStack.push(p);
+      while(p.forelder != null)
+      {
         p = p.forelder;
+        hjelpestack.add(p);
       }
 
-      StringJoiner s = new StringJoiner(", ", "[", "]");
-      while (!hjelpeBladStack.isEmpty()){
-        p = hjelpeBladStack.pop();
+      while(!hjelpestack.isEmpty())
+      {
+        p = hjelpestack.pollLast();
         s.add(p.verdi.toString());
       }
-
-
-      strings[i-1] = s.toString();
-      i--;
+      strings[j] = s.toString();
+      j++;
     }
     return strings;
   }
