@@ -2,6 +2,8 @@ package no.oslomet.cs.algdat.Oblig3;
 
 ////////////////// ObligSBinTre /////////////////////////////////
 
+import com.sun.deploy.security.SelectableSecurityManager;
+
 import java.util.*;
 
 public class ObligSBinTre<T> implements Beholder<T>
@@ -139,20 +141,84 @@ public class ObligSBinTre<T> implements Beholder<T>
   
   private static <T> Node<T> nesteInorden(Node<T> p)
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    Objects.requireNonNull(p,"Kan ikke være null");
+
+    if(p.høyre != null)
+    {
+      p = p.høyre;
+
+      while (p.venstre != null) {
+        p = p.venstre;
+      }
+    }
+    else
+    {
+      while(p.forelder != null && p == p.forelder.høyre)
+      {
+        p = p.forelder;
+      }
+      p = p.forelder;
+    }
+    return p;
   }
-  
+
   @Override
   public String toString()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    if (tom()) return "[]";
+
+    StringBuilder s = new StringBuilder();
+    s.append('[');
+
+    Node<T> p = rot;
+
+    while (p.venstre != null) p = p.venstre;
+    s.append(p.verdi);
+    p = nesteInorden(p);
+
+    for(int i = 0; i < antall-1; i++)
+    {
+      s.append(',').append(' ').append(p.verdi);
+      p = nesteInorden(p);
+    }
+
+    s.append(']');
+    return s.toString();
   }
+
+
   
   public String omvendtString()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    if (tom()) return "[]";
+
+    Stakk<Node<T>> stakk = new TabellStakk<>();
+    Node<T> p = rot;   // starter i roten og går til høyre
+    for ( ; p.høyre != null; p = p.høyre) stakk.leggInn(p);
+
+    StringJoiner s = new StringJoiner(", ", "[", "]");
+
+    while (true)
+    {
+
+      s.add(p.verdi.toString());
+      if (p.venstre != null)          // til høyre i venstre subtre
+      {
+        for (p = p.venstre; p.høyre != null; p = p.høyre)
+        {
+          stakk.leggInn(p);
+        }
+
+      }
+      else if (!stakk.tom())
+      {
+        p = stakk.taUt();   // p.høyre == null, henter fra stakken
+      }
+      else break;          // stakken er tom - vi er ferdig
+    } // while
+    return s.toString();
   }
-  
+
   public String høyreGren()
   {
     throw new UnsupportedOperationException("Ikke kodet ennå!");
