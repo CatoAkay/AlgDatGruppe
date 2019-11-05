@@ -44,7 +44,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     antall = 0;
     comp = c;
   }
-  
+
   @Override
   public boolean leggInn(T verdi)
   {
@@ -70,9 +70,10 @@ public class ObligSBinTre<T> implements Beholder<T>
     else q.høyre = p;
 
     antall++;
+    endringer++;
     return true;
   }
-  
+
   @Override
   public boolean inneholder(T verdi)
   {
@@ -90,12 +91,80 @@ public class ObligSBinTre<T> implements Beholder<T>
 
     return false;
   }
-  
+
   @Override
   public boolean fjern(T verdi)
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+      if (verdi == null) return false;
+
+      Node<T> p = rot, q = null;
+
+      while (p != null)
+      {
+          int cmp = comp.compare(verdi,p.verdi);
+          if (cmp < 0) { q = p; p = p.venstre; }
+          else if (cmp > 0) { q = p; p = p.høyre; }
+          else break;
+      }
+      if (p == null) return false;
+
+      if (p.venstre == null || p.høyre == null)
+      {
+          Node<T> b = p.venstre != null ? p.venstre : p.høyre;
+          if (p == rot) rot = b;
+          else if (p == q.venstre)
+          {
+              q.venstre = b;
+              if(b != null)
+              {
+                  b.forelder = q;
+              }
+
+          }
+          else
+          {
+              q.høyre = b;
+              if (b != null)
+              {
+                  b.forelder = q;
+              }
+          }
+      }
+      else
+      {
+          Node<T> s = null, r = p.høyre;
+          while (r.venstre != null)
+          {
+              r = r.venstre;
+          }
+
+          s = r.forelder;
+          p.verdi = r.verdi;
+
+          if (s != p)
+          {
+              s.venstre = r.høyre;
+              r.høyre.forelder = s.venstre;
+          }
+          else
+          {
+              s.høyre = r.høyre;
+              r.høyre.forelder = s.høyre;
+          }
+      }
+
+      antall--;
+      return true;
   }
+
+    public static void main(String[] args) {
+        int[] a = {4,7,2,9,4,10,8,7,4,6,1};
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
+        for (int verdi : a) tre.leggInn(verdi);
+
+        System.out.println(tre.fjern(4)); // 3
+        System.out.println(tre);
+    }
   
   public int fjernAlle(T verdi)
   {
